@@ -6,7 +6,7 @@ App ID: `com.darian.nur` · Version 1.0.0 (code 1) · Upload: `build/app/outputs
 
 | Section | Answer |
 |---|---|
-| Privacy policy | https://darian7b7.github.io/nur/privacy.html |
+| Privacy policy | https://darian7b7.github.io/nur/privacy.html (live) |
 | App access | All functionality is available without special access (no login). |
 | Ads | No, the app does not contain ads. |
 | Content rating | Fill the questionnaire: Category "Reference, News, or Educational" or "All other app types". No violence, no sexual content, no profanity, no drugs, no gambling, no user interaction or sharing, no location sharing, no purchases. Expected rating: Everyone / PEGI 3. |
@@ -62,11 +62,21 @@ Text: `store/listing.md`. Graphics in `store/`:
 
 ## Release checklist
 
-1. Publish the privacy policy (GitHub Pages: repository `nur`, folder `/docs`).
-2. Play Console → Create app → name "Nūr: Walk into the Light", default language English, App, Free.
-3. Fill App content (above), Store listing (`listing.md` and graphics).
-4. Testing → Closed testing first is recommended. For new personal developer accounts, Google requires a closed test with at least 12 testers for 14 days before production.
-5. Upload `app-release.aab`, enrol in Play App Signing (default), roll out.
+Done:
+- [x] App ID `com.darian.nur`, version 1.0.0 (code 1), signed with the upload key ("Darian")
+- [x] Privacy policy live: https://darian7b7.github.io/nur/privacy.html
+- [x] All 73 texts checked word for word: 57 Quran passages (Saheeh International, quran.com) and 16 hadith (sunnah.com English)
+- [x] Store text (`listing.md`), icon, feature graphic, 7 screenshots
+- [x] Answers for every form (this file)
+- [x] Tests: 30 passing, including stress tests
+
+Your steps:
+1. Back up `~/keys/nur-upload.jks` and `~/keys/nur-upload.properties` (the password is inside) to a USB stick or password manager.
+2. Create a Google Play developer account (play.google.com/console, one-time $25, identity check). Choose **Personal**.
+3. Create app → name "Nūr: Walk into the Light", default language English (United States), App, Free.
+4. Fill App content (above) and Store listing (`listing.md` + graphics). Add your public contact email.
+5. Closed test with 12+ testers for 14 days: see `testers.md`.
+6. Apply for production access, then release to production.
 
 ## Before every update
 
