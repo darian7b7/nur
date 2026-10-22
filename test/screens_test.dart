@@ -12,7 +12,7 @@ import 'package:nur/main.dart';
 import 'package:nur/store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'nur_test.dart' show FakeSteps, settle;
+import 'nur_test.dart' show loadTestContent, FakeSteps, settle;
 
 const out = String.fromEnvironment('SHOTS');
 
@@ -23,6 +23,17 @@ Future<void> loadFonts() async {
     roboto.addFont(Future.value(ByteData.sublistView(File('$dir/Roboto-$w.ttf').readAsBytesSync())));
   }
   await roboto.load();
+  for (final (family, files) in const [
+    ('AmiriQuran', ['AmiriQuran-Regular.ttf']),
+    ('Amiri', ['Amiri-Regular.ttf']),
+    ('NotoSansArabic', ['NotoSansArabic-Regular.ttf', 'NotoSansArabic-Bold.ttf']),
+  ]) {
+    final loader = FontLoader(family);
+    for (final f in files) {
+      loader.addFont(Future.value(ByteData.sublistView(File('assets/fonts/$f').readAsBytesSync())));
+    }
+    await loader.load();
+  }
   final icons = FontLoader('MaterialIcons')..addFont(Future.value(ByteData.sublistView(File('$dir/MaterialIcons-Regular.otf').readAsBytesSync())));
   await icons.load();
 }
@@ -35,6 +46,7 @@ Future<void> shot(WidgetTester tester, String name) async {
 }
 
 void main() {
+  setUpAll(loadTestContent);
   testWidgets('screens', (tester) async {
     if (out.isEmpty) return;
     await loadFonts();

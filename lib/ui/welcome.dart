@@ -5,7 +5,9 @@ import '../core/light.dart';
 import '../store.dart';
 import 'settings.dart' show goals;
 import 'sky.dart';
+import 'light_card.dart';
 import 'step_access.dart';
+import 'words.dart';
 import 'theme.dart';
 
 class Welcome extends StatefulWidget {
@@ -79,62 +81,60 @@ class _WelcomeState extends State<Welcome> {
                     children: [
                       const SizedBox(height: 20),
                       Text(
-                        'Nūr',
+                        context.l.appTitle,
                         style: TextStyle(color: ink, fontSize: 56, fontWeight: FontWeight.w200, letterSpacing: 3),
                       ),
                       const SizedBox(height: 4),
-                      Text('Walk into the light.', style: TextStyle(color: muted, fontSize: 20)),
+                      Text(context.l.tagline, style: TextStyle(color: muted, fontSize: 20)),
                       const SizedBox(height: 36),
-                      Text('"${dawn.text}"', style: TextStyle(color: ink, fontSize: 21, height: 1.5)),
+                      LightWords(
+                        light: dawn,
+                        language: context.lang,
+                        style: TextStyle(color: ink, fontSize: 21, height: 1.5),
+                      ),
                       const SizedBox(height: 10),
                       Text(
-                        dawn.source,
+                        dawn.sourceIn(context.lang),
                         style: TextStyle(color: muted, fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(height: 120),
                     ],
-                    button: FilledButton(onPressed: _next, style: buttonStyle, child: const Text('Begin')),
+                    button: FilledButton(onPressed: _next, style: buttonStyle, child: Text(context.l.begin)),
                   ),
                   page(
                     children: [
                       const SizedBox(height: 20),
                       Text(
-                        'Every step\nbrings light',
+                        context.l.everyStepBringsLight,
                         style: TextStyle(color: ink, fontSize: 40, fontWeight: FontWeight.w300, height: 1.15),
                       ),
                       const SizedBox(height: 22),
-                      Text(
-                        'Your day starts at night. As you walk, the sun comes up over your path. '
-                        'Along the way you find verses and hadith about walking, hope and light.',
-                        style: TextStyle(color: ink, fontSize: 17, height: 1.5),
-                      ),
+                      Text(context.l.welcomeBody, style: TextStyle(color: ink, fontSize: 17, height: 1.5)),
                       const SizedBox(height: 16),
-                      Text(
-                        'Rain, cold, a hard day, a place with old memories: Nūr has a small way out for each.',
-                        style: TextStyle(color: muted, fontSize: 16, height: 1.5),
-                      ),
+                      Text(context.l.welcomeHarder, style: TextStyle(color: muted, fontSize: 16, height: 1.5)),
                       const SizedBox(height: 26),
-                      Text(
-                        '"${why.first.text}"',
+                      LightWords(
+                        light: why.first,
+                        language: context.lang,
                         style: TextStyle(color: ink, fontSize: 16, height: 1.5, fontStyle: FontStyle.italic),
                       ),
                       const SizedBox(height: 6),
                       Text(
-                        why.first.source,
+                        why.first.sourceIn(context.lang),
                         style: TextStyle(color: muted, fontSize: 13, fontWeight: FontWeight.w600),
                       ),
                     ],
-                    button: FilledButton(onPressed: _next, style: buttonStyle, child: const Text('Next')),
+                    button: FilledButton(onPressed: _next, style: buttonStyle, child: Text(context.l.next)),
                   ),
                   page(
                     children: [
                       const SizedBox(height: 20),
                       Text(
-                        'Your daily light',
+                        context.l.yourDailyLight,
                         style: TextStyle(color: ink, fontSize: 36, fontWeight: FontWeight.w300),
                       ),
                       const SizedBox(height: 14),
-                      Text('How far to full light each day? You can change it any time.', style: TextStyle(color: ink, fontSize: 16, height: 1.45)),
+                      Text(context.l.dailyLightQuestion, style: TextStyle(color: ink, fontSize: 16, height: 1.45)),
                       const SizedBox(height: 16),
                       Wrap(
                         spacing: 8,
@@ -142,7 +142,7 @@ class _WelcomeState extends State<Welcome> {
                         children: [
                           for (final g in goals)
                             ChoiceChip(
-                              label: Text(distanceText(g)),
+                              label: Text(context.dist(g)),
                               selected: store.goal == g,
                               onSelected: (_) => store.setGoal(g),
                               selectedColor: night,
@@ -160,14 +160,11 @@ class _WelcomeState extends State<Welcome> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Your steps, from your phone',
+                              context.l.yourStepsFromPhone,
                               style: TextStyle(color: ink, fontWeight: FontWeight.w700, fontSize: 16),
                             ),
                             const SizedBox(height: 4),
-                            Text(
-                              'Only the step count. No location, no battery drain, nothing leaves the phone.',
-                              style: TextStyle(color: ink, height: 1.4),
-                            ),
+                            Text(context.l.onlyStepCount, style: TextStyle(color: ink, height: 1.4)),
                             const SizedBox(height: 6),
                             StepAccess(ink: ink, muted: ink.withValues(alpha: 0.75), accent: night),
                           ],
@@ -180,7 +177,7 @@ class _WelcomeState extends State<Welcome> {
                         if (store.counterOk == true || await store.allowCounter()) store.welcome();
                       },
                       style: buttonStyle,
-                      child: Text(store.counterOk == true ? 'Start' : 'Allow step counting'),
+                      child: Text(store.counterOk == true ? context.l.start : context.l.allowStepCounting),
                     ),
                   ),
                 ],

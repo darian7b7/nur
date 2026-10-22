@@ -1,0 +1,917 @@
+{
+ "dawn": {
+  "id": "dawn",
+  "en": "Allah is the ally of those who believe. He brings them out from darknesses into the light.",
+  "source": "Al-Baqarah 2:257",
+  "surah": 2,
+  "ayah": 257,
+  "arabicFrom": {
+   "quran": "2:257:1-9"
+  },
+  "ar": "ٱللَّهُ وَلِىُّ ٱلَّذِينَ ءَامَنُوا۟ يُخْرِجُهُم مِّنَ ٱلظُّلُمَـٰتِ إِلَى ٱلنُّورِ",
+  "sourceAr": "البقرة ٢٥٧"
+ },
+ "pool": [
+  {
+   "id": "q6_122",
+   "en": "And is one who was dead and We gave him life and made for him light by which to walk among the people like one who is in darkness, never to emerge therefrom?",
+   "source": "Al-An'am 6:122",
+   "surah": 6,
+   "ayah": 122,
+   "arabicFrom": {
+    "quran": "6:122:1-18"
+   },
+   "ar": "أَوَمَن كَانَ مَيْتًۭا فَأَحْيَيْنَـٰهُ وَجَعَلْنَا لَهُۥ نُورًۭا يَمْشِى بِهِۦ فِى ٱلنَّاسِ كَمَن مَّثَلُهُۥ فِى ٱلظُّلُمَـٰتِ لَيْسَ بِخَارِجٍۢ مِّنْهَا",
+   "sourceAr": "الأنعام ١٢٢"
+  },
+  {
+   "id": "q57_28",
+   "en": "O you who have believed, fear Allah and believe in His Messenger; He will [then] give you a double portion of His mercy and make for you a light by which you will walk and forgive you; and Allah is Forgiving and Merciful.",
+   "source": "Al-Hadid 57:28",
+   "surah": 57,
+   "ayah": 28,
+   "arabicFrom": {
+    "quran": "57:28"
+   },
+   "ar": "يَـٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُوا۟ ٱتَّقُوا۟ ٱللَّهَ وَءَامِنُوا۟ بِرَسُولِهِۦ يُؤْتِكُمْ كِفْلَيْنِ مِن رَّحْمَتِهِۦ وَيَجْعَل لَّكُمْ نُورًۭا تَمْشُونَ بِهِۦ وَيَغْفِرْ لَكُمْ وَٱللَّهُ غَفُورٌۭ رَّحِيمٌۭ ﴿٢٨﴾",
+   "sourceAr": "الحديد ٢٨"
+  },
+  {
+   "id": "q24_35",
+   "en": "Allah is the Light of the heavens and the earth … Light upon light. Allah guides to His light whom He wills.",
+   "source": "An-Nur 24:35",
+   "surah": 24,
+   "ayah": 35,
+   "arabicFrom": {
+    "quran": "24:35:1-4 … 24:35:33-40"
+   },
+   "ar": "ٱللَّهُ نُورُ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضِ … نُّورٌ عَلَىٰ نُورٍۢ يَهْدِى ٱللَّهُ لِنُورِهِۦ مَن يَشَآءُ",
+   "sourceAr": "النور ٣٥"
+  },
+  {
+   "id": "q14_1",
+   "en": "[This is] a Book which We have revealed to you, [O Muhammad], that you might bring mankind out of darknesses into the light by permission of their Lord.",
+   "source": "Ibrahim 14:1",
+   "surah": 14,
+   "ayah": 1,
+   "arabicFrom": {
+    "quran": "14:1:2-12"
+   },
+   "ar": "كِتَـٰبٌ أَنزَلْنَـٰهُ إِلَيْكَ لِتُخْرِجَ ٱلنَّاسَ مِنَ ٱلظُّلُمَـٰتِ إِلَى ٱلنُّورِ بِإِذْنِ رَبِّهِمْ",
+   "sourceAr": "ابراهيم ١"
+  },
+  {
+   "id": "q5_15",
+   "en": "There has come to you from Allah a light and a clear Book by which Allah guides those who pursue His pleasure to the ways of peace and brings them out from darknesses into the light, by His permission, and guides them to a straight path.",
+   "source": "Al-Ma'idah 5:15–16",
+   "surah": 5,
+   "ayah": 15,
+   "arabicFrom": {
+    "quran": "5:15:17-23 5:16"
+   },
+   "ar": "قَدْ جَآءَكُم مِّنَ ٱللَّهِ نُورٌۭ وَكِتَـٰبٌۭ مُّبِينٌۭ ﴿١٥﴾ يَهْدِى بِهِ ٱللَّهُ مَنِ ٱتَّبَعَ رِضْوَٰنَهُۥ سُبُلَ ٱلسَّلَـٰمِ وَيُخْرِجُهُم مِّنَ ٱلظُّلُمَـٰتِ إِلَى ٱلنُّورِ بِإِذْنِهِۦ وَيَهْدِيهِمْ إِلَىٰ صِرَٰطٍۢ مُّسْتَقِيمٍۢ ﴿١٦﴾",
+   "sourceAr": "المائدة ١٥–١٦"
+  },
+  {
+   "id": "q33_43",
+   "en": "It is He who confers blessing upon you, and His angels [ask Him to do so] that He may bring you out from darknesses into the light. And ever is He, to the believers, Merciful.",
+   "source": "Al-Ahzab 33:43",
+   "surah": 33,
+   "ayah": 43,
+   "arabicFrom": {
+    "quran": "33:43"
+   },
+   "ar": "هُوَ ٱلَّذِى يُصَلِّى عَلَيْكُمْ وَمَلَـٰٓئِكَتُهُۥ لِيُخْرِجَكُم مِّنَ ٱلظُّلُمَـٰتِ إِلَى ٱلنُّورِ وَكَانَ بِٱلْمُؤْمِنِينَ رَحِيمًۭا ﴿٤٣﴾",
+   "sourceAr": "الأحزاب ٤٣"
+  },
+  {
+   "id": "q39_22",
+   "en": "So is one whose breast Allah has expanded to [accept] Islam and he is upon a light from his Lord [like one whose heart rejects it]?",
+   "source": "Az-Zumar 39:22",
+   "surah": 39,
+   "ayah": 22,
+   "arabicFrom": {
+    "quran": "39:22:1-10"
+   },
+   "ar": "أَفَمَن شَرَحَ ٱللَّهُ صَدْرَهُۥ لِلْإِسْلَـٰمِ فَهُوَ عَلَىٰ نُورٍۢ مِّن رَّبِّهِۦ",
+   "sourceAr": "الزمر ٢٢"
+  },
+  {
+   "id": "q10_5",
+   "en": "It is He who made the sun a shining light and the moon a derived light.",
+   "source": "Yunus 10:5",
+   "surah": 10,
+   "ayah": 5,
+   "arabicFrom": {
+    "quran": "10:5:1-7"
+   },
+   "ar": "هُوَ ٱلَّذِى جَعَلَ ٱلشَّمْسَ ضِيَآءًۭ وَٱلْقَمَرَ نُورًۭا",
+   "sourceAr": "يونس ٥"
+  },
+  {
+   "id": "q6_1",
+   "en": "[All] praise is [due] to Allah, who created the heavens and the earth and made the darkness and the light.",
+   "source": "Al-An'am 6:1",
+   "surah": 6,
+   "ayah": 1,
+   "arabicFrom": {
+    "quran": "6:1:1-9"
+   },
+   "ar": "ٱلْحَمْدُ لِلَّهِ ٱلَّذِى خَلَقَ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضَ وَجَعَلَ ٱلظُّلُمَـٰتِ وَٱلنُّورَ",
+   "sourceAr": "الأنعام ١"
+  },
+  {
+   "id": "q64_8",
+   "en": "So believe in Allah and His Messenger and the light which We have sent down. And Allah is Aware of what you do.",
+   "source": "At-Taghabun 64:8",
+   "surah": 64,
+   "ayah": 8,
+   "arabicFrom": {
+    "quran": "64:8"
+   },
+   "ar": "فَـَٔامِنُوا۟ بِٱللَّهِ وَرَسُولِهِۦ وَٱلنُّورِ ٱلَّذِىٓ أَنزَلْنَا وَٱللَّهُ بِمَا تَعْمَلُونَ خَبِيرٌۭ ﴿٨﴾",
+   "sourceAr": "التغابن ٨"
+  },
+  {
+   "id": "q67_15",
+   "en": "It is He who made the earth tame for you – so walk among its slopes and eat of His provision – and to Him is the resurrection.",
+   "source": "Al-Mulk 67:15",
+   "surah": 67,
+   "ayah": 15,
+   "arabicFrom": {
+    "quran": "67:15"
+   },
+   "ar": "هُوَ ٱلَّذِى جَعَلَ لَكُمُ ٱلْأَرْضَ ذَلُولًۭا فَٱمْشُوا۟ فِى مَنَاكِبِهَا وَكُلُوا۟ مِن رِّزْقِهِۦ وَإِلَيْهِ ٱلنُّشُورُ ﴿١٥﴾",
+   "sourceAr": "الملك ١٥"
+  },
+  {
+   "id": "q25_63",
+   "en": "And the servants of the Most Merciful are those who walk upon the earth easily, and when the ignorant address them [harshly], they say [words of] peace.",
+   "source": "Al-Furqan 25:63",
+   "surah": 25,
+   "ayah": 63,
+   "arabicFrom": {
+    "quran": "25:63"
+   },
+   "ar": "وَعِبَادُ ٱلرَّحْمَـٰنِ ٱلَّذِينَ يَمْشُونَ عَلَى ٱلْأَرْضِ هَوْنًۭا وَإِذَا خَاطَبَهُمُ ٱلْجَـٰهِلُونَ قَالُوا۟ سَلَـٰمًۭا ﴿٦٣﴾",
+   "sourceAr": "الفرقان ٦٣"
+  },
+  {
+   "id": "q17_37",
+   "en": "And do not walk upon the earth exultantly. Indeed, you will never tear the earth [apart], and you will never reach the mountains in height.",
+   "source": "Al-Isra 17:37",
+   "surah": 17,
+   "ayah": 37,
+   "arabicFrom": {
+    "quran": "17:37"
+   },
+   "ar": "وَلَا تَمْشِ فِى ٱلْأَرْضِ مَرَحًا إِنَّكَ لَن تَخْرِقَ ٱلْأَرْضَ وَلَن تَبْلُغَ ٱلْجِبَالَ طُولًۭا ﴿٣٧﴾",
+   "sourceAr": "الإسراء ٣٧"
+  },
+  {
+   "id": "q71_19",
+   "en": "And Allah has made for you the earth an expanse that you may follow therein roads of passage.",
+   "source": "Nuh 71:19–20",
+   "surah": 71,
+   "ayah": 19,
+   "arabicFrom": {
+    "quran": "71:19 71:20"
+   },
+   "ar": "وَٱللَّهُ جَعَلَ لَكُمُ ٱلْأَرْضَ بِسَاطًۭا ﴿١٩﴾ لِّتَسْلُكُوا۟ مِنْهَا سُبُلًۭا فِجَاجًۭا ﴿٢٠﴾",
+   "sourceAr": "نوح ١٩–٢٠"
+  },
+  {
+   "id": "q20_53",
+   "en": "[It is He] who has made for you the earth as a bed [spread out] and inserted therein for you roadways.",
+   "source": "Ta-Ha 20:53",
+   "surah": 20,
+   "ayah": 53,
+   "arabicFrom": {
+    "quran": "20:53:1-9"
+   },
+   "ar": "ٱلَّذِى جَعَلَ لَكُمُ ٱلْأَرْضَ مَهْدًۭا وَسَلَكَ لَكُمْ فِيهَا سُبُلًۭا",
+   "sourceAr": "طه ٥٣"
+  },
+  {
+   "id": "q43_10",
+   "en": "[The one] who has made for you the earth a bed and made for you upon it roads that you might be guided.",
+   "source": "Az-Zukhruf 43:10",
+   "surah": 43,
+   "ayah": 10,
+   "arabicFrom": {
+    "quran": "43:10"
+   },
+   "ar": "ٱلَّذِى جَعَلَ لَكُمُ ٱلْأَرْضَ مَهْدًۭا وَجَعَلَ لَكُمْ فِيهَا سُبُلًۭا لَّعَلَّكُمْ تَهْتَدُونَ ﴿١٠﴾",
+   "sourceAr": "الزخرف ١٠"
+  },
+  {
+   "id": "q16_15",
+   "en": "And He has cast into the earth firmly set mountains, lest it shift with you, and [made] rivers and roads, that you may be guided.",
+   "source": "An-Nahl 16:15",
+   "surah": 16,
+   "ayah": 15,
+   "arabicFrom": {
+    "quran": "16:15"
+   },
+   "ar": "وَأَلْقَىٰ فِى ٱلْأَرْضِ رَوَٰسِىَ أَن تَمِيدَ بِكُمْ وَأَنْهَـٰرًۭا وَسُبُلًۭا لَّعَلَّكُمْ تَهْتَدُونَ ﴿١٥﴾",
+   "sourceAr": "النحل ١٥"
+  },
+  {
+   "id": "q62_10",
+   "en": "And when the prayer has been concluded, disperse within the land and seek from the bounty of Allah, and remember Allah often that you may succeed.",
+   "source": "Al-Jumu'ah 62:10",
+   "surah": 62,
+   "ayah": 10,
+   "arabicFrom": {
+    "quran": "62:10"
+   },
+   "ar": "فَإِذَا قُضِيَتِ ٱلصَّلَوٰةُ فَٱنتَشِرُوا۟ فِى ٱلْأَرْضِ وَٱبْتَغُوا۟ مِن فَضْلِ ٱللَّهِ وَٱذْكُرُوا۟ ٱللَّهَ كَثِيرًۭا لَّعَلَّكُمْ تُفْلِحُونَ ﴿١٠﴾",
+   "sourceAr": "الجمعة ١٠"
+  },
+  {
+   "id": "q2_115",
+   "en": "And to Allah belongs the east and the west. So wherever you [might] turn, there is the Face of Allah.",
+   "source": "Al-Baqarah 2:115",
+   "surah": 2,
+   "ayah": 115,
+   "arabicFrom": {
+    "quran": "2:115:1-8"
+   },
+   "ar": "وَلِلَّهِ ٱلْمَشْرِقُ وَٱلْمَغْرِبُ فَأَيْنَمَا تُوَلُّوا۟ فَثَمَّ وَجْهُ ٱللَّهِ",
+   "sourceAr": "البقرة ١١٥"
+  },
+  {
+   "id": "q57_4",
+   "en": "And He is with you wherever you are. And Allah, of what you do, is Seeing.",
+   "source": "Al-Hadid 57:4",
+   "surah": 57,
+   "ayah": 4,
+   "arabicFrom": {
+    "quran": "57:4:28-36"
+   },
+   "ar": "وَهُوَ مَعَكُمْ أَيْنَ مَا كُنتُمْ وَٱللَّهُ بِمَا تَعْمَلُونَ بَصِيرٌۭ ﴿٤﴾",
+   "sourceAr": "الحديد ٤"
+  },
+  {
+   "id": "q88_17",
+   "en": "Then do they not look at the camels – how they are created? And at the sky – how it is raised? And at the mountains – how they are erected? And at the earth – how it is spread out?",
+   "source": "Al-Ghashiyah 88:17–20",
+   "surah": 88,
+   "ayah": 17,
+   "arabicFrom": {
+    "quran": "88:17 88:18 88:19 88:20"
+   },
+   "ar": "أَفَلَا يَنظُرُونَ إِلَى ٱلْإِبِلِ كَيْفَ خُلِقَتْ ﴿١٧﴾ وَإِلَى ٱلسَّمَآءِ كَيْفَ رُفِعَتْ ﴿١٨﴾ وَإِلَى ٱلْجِبَالِ كَيْفَ نُصِبَتْ ﴿١٩﴾ وَإِلَى ٱلْأَرْضِ كَيْفَ سُطِحَتْ ﴿٢٠﴾",
+   "sourceAr": "الغاشية ١٧–٢٠"
+  },
+  {
+   "id": "q51_20",
+   "en": "And on the earth are signs for the certain [in faith], and in yourselves. Then will you not see?",
+   "source": "Adh-Dhariyat 51:20–21",
+   "surah": 51,
+   "ayah": 20,
+   "arabicFrom": {
+    "quran": "51:20 51:21"
+   },
+   "ar": "وَفِى ٱلْأَرْضِ ءَايَـٰتٌۭ لِّلْمُوقِنِينَ ﴿٢٠﴾ وَفِىٓ أَنفُسِكُمْ أَفَلَا تُبْصِرُونَ ﴿٢١﴾",
+   "sourceAr": "الذاريات ٢٠–٢١"
+  },
+  {
+   "id": "q3_190",
+   "en": "Indeed, in the creation of the heavens and the earth and the alternation of the night and the day are signs for those of understanding.",
+   "source": "Al 'Imran 3:190",
+   "surah": 3,
+   "ayah": 190,
+   "arabicFrom": {
+    "quran": "3:190"
+   },
+   "ar": "إِنَّ فِى خَلْقِ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضِ وَٱخْتِلَـٰفِ ٱلَّيْلِ وَٱلنَّهَارِ لَـَٔايَـٰتٍۢ لِّأُو۟لِى ٱلْأَلْبَـٰبِ ﴿١٩٠﴾",
+   "sourceAr": "آل عمران ١٩٠"
+  },
+  {
+   "id": "q3_191",
+   "en": "Who remember Allah while standing or sitting or [lying] on their sides and give thought to the creation of the heavens and the earth, [saying], \"Our Lord, You did not create this aimlessly.\"",
+   "source": "Al 'Imran 3:191",
+   "surah": 3,
+   "ayah": 191,
+   "arabicFrom": {
+    "quran": "3:191:1-17"
+   },
+   "ar": "ٱلَّذِينَ يَذْكُرُونَ ٱللَّهَ قِيَـٰمًۭا وَقُعُودًۭا وَعَلَىٰ جُنُوبِهِمْ وَيَتَفَكَّرُونَ فِى خَلْقِ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضِ رَبَّنَا مَا خَلَقْتَ هَـٰذَا بَـٰطِلًۭا",
+   "sourceAr": "آل عمران ١٩١"
+  },
+  {
+   "id": "q30_50",
+   "en": "So observe the effects of the mercy of Allah – how He gives life to the earth after its lifelessness.",
+   "source": "Ar-Rum 30:50",
+   "surah": 30,
+   "ayah": 50,
+   "arabicFrom": {
+    "quran": "30:50:1-10"
+   },
+   "ar": "فَٱنظُرْ إِلَىٰٓ ءَاثَـٰرِ رَحْمَتِ ٱللَّهِ كَيْفَ يُحْىِ ٱلْأَرْضَ بَعْدَ مَوْتِهَآ",
+   "sourceAr": "الروم ٥٠"
+  },
+  {
+   "id": "q45_13",
+   "en": "And He has subjected to you whatever is in the heavens and whatever is on the earth – all from Him. Indeed in that are signs for a people who give thought.",
+   "source": "Al-Jathiyah 45:13",
+   "surah": 45,
+   "ayah": 13,
+   "arabicFrom": {
+    "quran": "45:13"
+   },
+   "ar": "وَسَخَّرَ لَكُم مَّا فِى ٱلسَّمَـٰوَٰتِ وَمَا فِى ٱلْأَرْضِ جَمِيعًۭا مِّنْهُ إِنَّ فِى ذَٰلِكَ لَـَٔايَـٰتٍۢ لِّقَوْمٍۢ يَتَفَكَّرُونَ ﴿١٣﴾",
+   "sourceAr": "الجاثية ١٣"
+  },
+  {
+   "id": "q55_10",
+   "en": "And the earth He laid [out] for the creatures.",
+   "source": "Ar-Rahman 55:10",
+   "surah": 55,
+   "ayah": 10,
+   "arabicFrom": {
+    "quran": "55:10"
+   },
+   "ar": "وَٱلْأَرْضَ وَضَعَهَا لِلْأَنَامِ ﴿١٠﴾",
+   "sourceAr": "الرحمن ١٠"
+  },
+  {
+   "id": "q55_13",
+   "en": "So which of the favors of your Lord would you deny?",
+   "source": "Ar-Rahman 55:13",
+   "surah": 55,
+   "ayah": 13,
+   "arabicFrom": {
+    "quran": "55:13"
+   },
+   "ar": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ ﴿١٣﴾",
+   "sourceAr": "الرحمن ١٣"
+  },
+  {
+   "id": "q16_18",
+   "en": "And if you should count the favors of Allah, you could not enumerate them. Indeed, Allah is Forgiving and Merciful.",
+   "source": "An-Nahl 16:18",
+   "surah": 16,
+   "ayah": 18,
+   "arabicFrom": {
+    "quran": "16:18"
+   },
+   "ar": "وَإِن تَعُدُّوا۟ نِعْمَةَ ٱللَّهِ لَا تُحْصُوهَآ إِنَّ ٱللَّهَ لَغَفُورٌۭ رَّحِيمٌۭ ﴿١٨﴾",
+   "sourceAr": "النحل ١٨"
+  },
+  {
+   "id": "q94_5",
+   "en": "For indeed, with hardship [will be] ease. Indeed, with hardship [will be] ease.",
+   "source": "Ash-Sharh 94:5–6",
+   "surah": 94,
+   "ayah": 5,
+   "arabicFrom": {
+    "quran": "94:5 94:6"
+   },
+   "ar": "فَإِنَّ مَعَ ٱلْعُسْرِ يُسْرًا ﴿٥﴾ إِنَّ مَعَ ٱلْعُسْرِ يُسْرًۭا ﴿٦﴾",
+   "sourceAr": "الشرح ٥–٦"
+  },
+  {
+   "id": "q94_7",
+   "en": "So when you have finished [your duties], then stand up [for worship]. And to your Lord direct [your] longing.",
+   "source": "Ash-Sharh 94:7–8",
+   "surah": 94,
+   "ayah": 7,
+   "arabicFrom": {
+    "quran": "94:7 94:8"
+   },
+   "ar": "فَإِذَا فَرَغْتَ فَٱنصَبْ ﴿٧﴾ وَإِلَىٰ رَبِّكَ فَٱرْغَب ﴿٨﴾",
+   "sourceAr": "الشرح ٧–٨"
+  },
+  {
+   "id": "q65_2",
+   "en": "And whoever fears Allah – He will make for him a way out and will provide for him from where he does not expect.",
+   "source": "At-Talaq 65:2–3",
+   "surah": 65,
+   "ayah": 2,
+   "arabicFrom": {
+    "quran": "65:2:25-30 65:3:1-5"
+   },
+   "ar": "وَمَن يَتَّقِ ٱللَّهَ يَجْعَل لَّهُۥ مَخْرَجًۭا ﴿٢﴾ وَيَرْزُقْهُ مِنْ حَيْثُ لَا يَحْتَسِبُ",
+   "sourceAr": "الطلاق ٢–٣"
+  },
+  {
+   "id": "q65_7",
+   "en": "Allah will bring about, after hardship, ease.",
+   "source": "At-Talaq 65:7",
+   "surah": 65,
+   "ayah": 7,
+   "arabicFrom": {
+    "quran": "65:7:21-25"
+   },
+   "ar": "سَيَجْعَلُ ٱللَّهُ بَعْدَ عُسْرٍۢ يُسْرًۭا ﴿٧﴾",
+   "sourceAr": "الطلاق ٧"
+  },
+  {
+   "id": "q2_286",
+   "en": "Allah does not charge a soul except [with that within] its capacity.",
+   "source": "Al-Baqarah 2:286",
+   "surah": 2,
+   "ayah": 286,
+   "arabicFrom": {
+    "quran": "2:286:1-6"
+   },
+   "ar": "لَا يُكَلِّفُ ٱللَّهُ نَفْسًا إِلَّا وُسْعَهَا",
+   "sourceAr": "البقرة ٢٨٦"
+  },
+  {
+   "id": "q39_53",
+   "en": "Say, \"O My servants who have transgressed against themselves [by sinning], do not despair of the mercy of Allah. Indeed, Allah forgives all sins. Indeed, it is He who is the Forgiving, the Merciful.\"",
+   "source": "Az-Zumar 39:53",
+   "surah": 39,
+   "ayah": 53,
+   "arabicFrom": {
+    "quran": "39:53"
+   },
+   "ar": "قُلْ يَـٰعِبَادِىَ ٱلَّذِينَ أَسْرَفُوا۟ عَلَىٰٓ أَنفُسِهِمْ لَا تَقْنَطُوا۟ مِن رَّحْمَةِ ٱللَّهِ إِنَّ ٱللَّهَ يَغْفِرُ ٱلذُّنُوبَ جَمِيعًا إِنَّهُۥ هُوَ ٱلْغَفُورُ ٱلرَّحِيمُ ﴿٥٣﴾",
+   "sourceAr": "الزمر ٥٣"
+  },
+  {
+   "id": "q12_87",
+   "en": "And despair not of relief from Allah. Indeed, no one despairs of relief from Allah except the disbelieving people.",
+   "source": "Yusuf 12:87",
+   "surah": 12,
+   "ayah": 87,
+   "arabicFrom": {
+    "quran": "12:87:7-20"
+   },
+   "ar": "وَلَا تَا۟يْـَٔسُوا۟ مِن رَّوْحِ ٱللَّهِ إِنَّهُۥ لَا يَا۟يْـَٔسُ مِن رَّوْحِ ٱللَّهِ إِلَّا ٱلْقَوْمُ ٱلْكَـٰفِرُونَ ﴿٨٧﴾",
+   "sourceAr": "يوسف ٨٧"
+  },
+  {
+   "id": "q3_139",
+   "en": "So do not weaken and do not grieve, and you will be superior if you are [true] believers.",
+   "source": "Al 'Imran 3:139",
+   "surah": 3,
+   "ayah": 139,
+   "arabicFrom": {
+    "quran": "3:139"
+   },
+   "ar": "وَلَا تَهِنُوا۟ وَلَا تَحْزَنُوا۟ وَأَنتُمُ ٱلْأَعْلَوْنَ إِن كُنتُم مُّؤْمِنِينَ ﴿١٣٩﴾",
+   "sourceAr": "آل عمران ١٣٩"
+  },
+  {
+   "id": "q9_40",
+   "en": "\"Do not grieve; indeed Allah is with us.\"",
+   "source": "At-Tawbah 9:40",
+   "surah": 9,
+   "ayah": 40,
+   "arabicFrom": {
+    "quran": "9:40:19-23"
+   },
+   "ar": "لَا تَحْزَنْ إِنَّ ٱللَّهَ مَعَنَا",
+   "sourceAr": "التوبة ٤٠"
+  },
+  {
+   "id": "q13_11",
+   "en": "Indeed, Allah will not change the condition of a people until they change what is in themselves.",
+   "source": "Ar-Ra'd 13:11",
+   "surah": 13,
+   "ayah": 11,
+   "arabicFrom": {
+    "quran": "13:11:12-21"
+   },
+   "ar": "إِنَّ ٱللَّهَ لَا يُغَيِّرُ مَا بِقَوْمٍ حَتَّىٰ يُغَيِّرُوا۟ مَا بِأَنفُسِهِمْ",
+   "sourceAr": "الرعد ١١"
+  },
+  {
+   "id": "q53_39",
+   "en": "And that there is not for man except that [good] for which he strives, and that his effort is going to be seen.",
+   "source": "An-Najm 53:39–40",
+   "surah": 53,
+   "ayah": 39,
+   "arabicFrom": {
+    "quran": "53:39 53:40"
+   },
+   "ar": "وَأَن لَّيْسَ لِلْإِنسَـٰنِ إِلَّا مَا سَعَىٰ ﴿٣٩﴾ وَأَنَّ سَعْيَهُۥ سَوْفَ يُرَىٰ ﴿٤٠﴾",
+   "sourceAr": "النجم ٣٩–٤٠"
+  },
+  {
+   "id": "q2_153",
+   "en": "O you who have believed, seek help through patience and prayer. Indeed, Allah is with the patient.",
+   "source": "Al-Baqarah 2:153",
+   "surah": 2,
+   "ayah": 153,
+   "arabicFrom": {
+    "quran": "2:153"
+   },
+   "ar": "يَـٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُوا۟ ٱسْتَعِينُوا۟ بِٱلصَّبْرِ وَٱلصَّلَوٰةِ إِنَّ ٱللَّهَ مَعَ ٱلصَّـٰبِرِينَ ﴿١٥٣﴾",
+   "sourceAr": "البقرة ١٥٣"
+  },
+  {
+   "id": "q11_115",
+   "en": "And be patient, for indeed, Allah does not allow to be lost the reward of those who do good.",
+   "source": "Hud 11:115",
+   "surah": 11,
+   "ayah": 115,
+   "arabicFrom": {
+    "quran": "11:115"
+   },
+   "ar": "وَٱصْبِرْ فَإِنَّ ٱللَّهَ لَا يُضِيعُ أَجْرَ ٱلْمُحْسِنِينَ ﴿١١٥﴾",
+   "sourceAr": "هود ١١٥"
+  },
+  {
+   "id": "q16_128",
+   "en": "Indeed, Allah is with those who fear Him and those who are doers of good.",
+   "source": "An-Nahl 16:128",
+   "surah": 16,
+   "ayah": 128,
+   "arabicFrom": {
+    "quran": "16:128"
+   },
+   "ar": "إِنَّ ٱللَّهَ مَعَ ٱلَّذِينَ ٱتَّقَوا۟ وَّٱلَّذِينَ هُم مُّحْسِنُونَ ﴿١٢٨﴾",
+   "sourceAr": "النحل ١٢٨"
+  },
+  {
+   "id": "q2_186",
+   "en": "And when My servants ask you, [O Muhammad], concerning Me – indeed I am near. I respond to the invocation of the supplicant when he calls upon Me.",
+   "source": "Al-Baqarah 2:186",
+   "surah": 2,
+   "ayah": 186,
+   "arabicFrom": {
+    "quran": "2:186:1-11"
+   },
+   "ar": "وَإِذَا سَأَلَكَ عِبَادِى عَنِّى فَإِنِّى قَرِيبٌ أُجِيبُ دَعْوَةَ ٱلدَّاعِ إِذَا دَعَانِ",
+   "sourceAr": "البقرة ١٨٦"
+  },
+  {
+   "id": "q40_60",
+   "en": "And your Lord says, \"Call upon Me; I will respond to you.\"",
+   "source": "Ghafir 40:60",
+   "surah": 40,
+   "ayah": 60,
+   "arabicFrom": {
+    "quran": "40:60:1-5"
+   },
+   "ar": "وَقَالَ رَبُّكُمُ ٱدْعُونِىٓ أَسْتَجِبْ لَكُمْ",
+   "sourceAr": "غافر ٦٠"
+  },
+  {
+   "id": "q50_16",
+   "en": "And We have already created man and know what his soul whispers to him, and We are closer to him than [his] jugular vein.",
+   "source": "Qaf 50:16",
+   "surah": 50,
+   "ayah": 16,
+   "arabicFrom": {
+    "quran": "50:16"
+   },
+   "ar": "وَلَقَدْ خَلَقْنَا ٱلْإِنسَـٰنَ وَنَعْلَمُ مَا تُوَسْوِسُ بِهِۦ نَفْسُهُۥ وَنَحْنُ أَقْرَبُ إِلَيْهِ مِنْ حَبْلِ ٱلْوَرِيدِ ﴿١٦﴾",
+   "sourceAr": "ق ١٦"
+  },
+  {
+   "id": "q13_28",
+   "en": "Unquestionably, by the remembrance of Allah hearts are assured.",
+   "source": "Ar-Ra'd 13:28",
+   "surah": 13,
+   "ayah": 28,
+   "arabicFrom": {
+    "quran": "13:28:7-11"
+   },
+   "ar": "أَلَا بِذِكْرِ ٱللَّهِ تَطْمَئِنُّ ٱلْقُلُوبُ ﴿٢٨﴾",
+   "sourceAr": "الرعد ٢٨"
+  },
+  {
+   "id": "b7405",
+   "en": "The Prophet ﷺ said, \"Allah says: '… If he comes one span nearer to Me, I go one cubit nearer to him; and if he comes one cubit nearer to Me, I go a distance of two outstretched arms nearer to him; and if he comes to Me walking, I go to him running.'\"",
+   "source": "Sahih al-Bukhari 7405",
+   "arabicFrom": {
+    "hadith": [
+     "وان تقرب الي بشبر",
+     "اتيته هرولة"
+    ]
+   },
+   "ar": "وَإِنْ تَقَرَّبَ إِلَىَّ بِشِبْرٍ تَقَرَّبْتُ إِلَيْهِ ذِرَاعًا، وَإِنْ تَقَرَّبَ إِلَىَّ ذِرَاعًا تَقَرَّبْتُ إِلَيْهِ بَاعًا، وَإِنْ أَتَانِي يَمْشِي أَتَيْتُهُ هَرْوَلَةً",
+   "sourceAr": "صحيح البخاري ٧٤٠٥"
+  },
+  {
+   "id": "m666",
+   "en": "He who purified himself in his house, and then he walked to one of the houses of Allah for the sake of performing a Fard (obligatory act), both his steps would be significant, as one of them would obliterate his sin and the second one would raise his status.",
+   "source": "Sahih Muslim 666",
+   "arabicFrom": {
+    "hadith": [
+     "من تطهر في بيته",
+     "ترفع درجة"
+    ]
+   },
+   "ar": "مَنْ تَطَهَّرَ فِي بَيْتِهِ ثُمَّ مَشَى إِلَى بَيْتٍ مِنْ بُيُوتِ اللَّهِ لِيَقْضِيَ فَرِيضَةً مِنْ فَرَائِضِ اللَّهِ كَانَتْ خَطْوَتَاهُ إِحْدَاهُمَا تَحُطُّ خَطِيئَةً وَالأُخْرَى تَرْفَعُ دَرَجَةً",
+   "sourceAr": "صحيح مسلم ٦٦٦"
+  },
+  {
+   "id": "m223",
+   "en": "Cleanliness is half of faith … and prayer is a light, and charity is proof (of one's faith), and endurance is a brightness.",
+   "source": "Sahih Muslim 223",
+   "arabicFrom": {
+    "hadith": [
+     "الطهور شطر الايمان",
+     "الطهور شطر الايمان",
+     "والصلاة نور",
+     "والصبر ضياء"
+    ]
+   },
+   "ar": "الطُّهُورُ شَطْرُ الإِيمَانِ … وَالصَّلاَةُ نُورٌ وَالصَّدَقَةُ بُرْهَانٌ وَالصَّبْرُ ضِيَاءٌ",
+   "sourceAr": "صحيح مسلم ٢٢٣"
+  },
+  {
+   "id": "b6412",
+   "en": "There are two blessings that many people are deceived into losing: health and free time.",
+   "source": "Sahih al-Bukhari 6412",
+   "arabicFrom": {
+    "hadith": [
+     "نعمتان مغبون فيهما",
+     "والفراغ"
+    ]
+   },
+   "ar": "نِعْمَتَانِ مَغْبُونٌ فِيهِمَا كَثِيرٌ مِنَ النَّاسِ، الصِّحَّةُ وَالْفَرَاغُ",
+   "sourceAr": "صحيح البخاري ٦٤١٢"
+  },
+  {
+   "id": "b1",
+   "en": "The reward of deeds depends upon the intentions, and every person will get the reward according to what he has intended.",
+   "source": "Sahih al-Bukhari 1",
+   "arabicFrom": {
+    "hadith": [
+     "انما الاعمال بالنيات",
+     "ما نوى"
+    ]
+   },
+   "ar": "إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى",
+   "sourceAr": "صحيح البخاري ١"
+  },
+  {
+   "id": "b5678",
+   "en": "There is no disease that Allah has created, except that He also has created its treatment.",
+   "source": "Sahih al-Bukhari 5678",
+   "arabicFrom": {
+    "hadith": [
+     "ما انزل الله داء",
+     "شفاء"
+    ]
+   },
+   "ar": "مَا أَنْزَلَ اللَّهُ دَاءً إِلاَّ أَنْزَلَ لَهُ شِفَاءً",
+   "sourceAr": "صحيح البخاري ٥٦٧٨"
+  }
+ ],
+ "long": [
+  {
+   "km": 5,
+   "id": "q29_20",
+   "en": "Say, [O Muhammad], \"Travel through the land and observe how He began creation.\"",
+   "source": "Al-'Ankabut 29:20",
+   "surah": 29,
+   "ayah": 20,
+   "arabicFrom": {
+    "quran": "29:20:1-8"
+   },
+   "ar": "قُلْ سِيرُوا۟ فِى ٱلْأَرْضِ فَٱنظُرُوا۟ كَيْفَ بَدَأَ ٱلْخَلْقَ",
+   "sourceAr": "العنكبوت ٢٠"
+  },
+  {
+   "km": 25,
+   "id": "q31_19",
+   "en": "And be moderate in your pace and lower your voice.",
+   "source": "Luqman 31:19",
+   "surah": 31,
+   "ayah": 19,
+   "arabicFrom": {
+    "quran": "31:19:1-6"
+   },
+   "ar": "وَٱقْصِدْ فِى مَشْيِكَ وَٱغْضُضْ مِن صَوْتِكَ",
+   "sourceAr": "لقمان ١٩"
+  },
+  {
+   "km": 50,
+   "id": "m2699",
+   "en": "He who treads the path in search of knowledge, Allah would make that path easy, leading to Paradise for him.",
+   "source": "Sahih Muslim 2699",
+   "arabicFrom": {
+    "hadith": [
+     "ومن سلك طريقا",
+     "الى الجنة"
+    ]
+   },
+   "ar": "وَمَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ",
+   "sourceAr": "صحيح مسلم ٢٦٩٩"
+  },
+  {
+   "km": 100,
+   "id": "q16_97",
+   "en": "Whoever does righteousness, whether male or female, while he is a believer – We will surely cause him to live a good life.",
+   "source": "An-Nahl 16:97",
+   "surah": 16,
+   "ayah": 97,
+   "arabicFrom": {
+    "quran": "16:97:1-12"
+   },
+   "ar": "مَنْ عَمِلَ صَـٰلِحًۭا مِّن ذَكَرٍ أَوْ أُنثَىٰ وَهُوَ مُؤْمِنٌۭ فَلَنُحْيِيَنَّهُۥ حَيَوٰةًۭ طَيِّبَةًۭ",
+   "sourceAr": "النحل ٩٧"
+  },
+  {
+   "km": 250,
+   "id": "q29_69",
+   "en": "And those who strive for Us – We will surely guide them to Our ways. And indeed, Allah is with the doers of good.",
+   "source": "Al-'Ankabut 29:69",
+   "surah": 29,
+   "ayah": 69,
+   "arabicFrom": {
+    "quran": "29:69"
+   },
+   "ar": "وَٱلَّذِينَ جَـٰهَدُوا۟ فِينَا لَنَهْدِيَنَّهُمْ سُبُلَنَا وَإِنَّ ٱللَّهَ لَمَعَ ٱلْمُحْسِنِينَ ﴿٦٩﴾",
+   "sourceAr": "العنكبوت ٦٩"
+  },
+  {
+   "km": 500,
+   "id": "q57_12",
+   "en": "On the Day you see the believing men and believing women, their light proceeding before them and on their right.",
+   "source": "Al-Hadid 57:12",
+   "surah": 57,
+   "ayah": 12,
+   "arabicFrom": {
+    "quran": "57:12:1-9"
+   },
+   "ar": "يَوْمَ تَرَى ٱلْمُؤْمِنِينَ وَٱلْمُؤْمِنَـٰتِ يَسْعَىٰ نُورُهُم بَيْنَ أَيْدِيهِمْ وَبِأَيْمَـٰنِهِم",
+   "sourceAr": "الحديد ١٢"
+  },
+  {
+   "km": 1000,
+   "id": "q66_8",
+   "en": "Their light will proceed before them and on their right; they will say, \"Our Lord, perfect for us our light and forgive us. Indeed, You are over all things competent.\"",
+   "source": "At-Tahrim 66:8",
+   "surah": 66,
+   "ayah": 8,
+   "arabicFrom": {
+    "quran": "66:8:29-45"
+   },
+   "ar": "نُورُهُمْ يَسْعَىٰ بَيْنَ أَيْدِيهِمْ وَبِأَيْمَـٰنِهِمْ يَقُولُونَ رَبَّنَآ أَتْمِمْ لَنَا نُورَنَا وَٱغْفِرْ لَنَآ إِنَّكَ عَلَىٰ كُلِّ شَىْءٍۢ قَدِيرٌۭ ﴿٨﴾",
+   "sourceAr": "التحريم ٨"
+  }
+ ],
+ "hardDays": [
+  {
+   "id": "b6464",
+   "en": "The most beloved deed to Allah is the most regular and constant, even if it were little.",
+   "source": "Sahih al-Bukhari 6464",
+   "arabicFrom": {
+    "hadith": [
+     "احب الاعمال",
+     "وان قل"
+    ]
+   },
+   "ar": "أَحَبَّ الأَعْمَالِ أَدْوَمُهَا إِلَى اللَّهِ، وَإِنْ قَلَّ",
+   "sourceAr": "صحيح البخاري ٦٤٦٤"
+  },
+  {
+   "id": "b39",
+   "en": "Religion is very easy … So you should not be extremists, but try to be near to perfection and receive the good tidings that you will be rewarded; and gain strength by worshipping in the mornings, the afternoons, and during the last hours of the nights.",
+   "source": "Sahih al-Bukhari 39",
+   "arabicFrom": {
+    "hadith": [
+     "ان الدين يسر",
+     "ان الدين يسر",
+     "فسددوا وقاربوا",
+     "من الدلجة"
+    ]
+   },
+   "ar": "إِنَّ الدِّينَ يُسْرٌ … فَسَدِّدُوا وَقَارِبُوا وَأَبْشِرُوا، وَاسْتَعِينُوا بِالْغَدْوَةِ وَالرَّوْحَةِ وَشَىْءٍ مِنَ الدُّلْجَةِ",
+   "sourceAr": "صحيح البخاري ٣٩"
+  },
+  {
+   "id": "m2999",
+   "en": "Strange are the ways of a believer, for there is good in every affair of his … If he has an occasion to feel delight, he thanks (God), thus there is a good for him in it; and if he gets into trouble and shows resignation (and endures it patiently), there is a good for him in it.",
+   "source": "Sahih Muslim 2999",
+   "arabicFrom": {
+    "hadith": [
+     "عجبا لامر المؤمن",
+     "كله خير",
+     "ان اصابته سراء",
+     "صبر فكان خيرا له"
+    ]
+   },
+   "ar": "عَجَبًا لأَمْرِ الْمُؤْمِنِ إِنَّ أَمْرَهُ كُلَّهُ خَيْرٌ … إِنْ أَصَابَتْهُ سَرَّاءُ شَكَرَ فَكَانَ خَيْرًا لَهُ وَإِنْ أَصَابَتْهُ ضَرَّاءُ صَبَرَ فَكَانَ خَيْرًا لَهُ",
+   "sourceAr": "صحيح مسلم ٢٩٩٩"
+  },
+  {
+   "id": "b2996",
+   "en": "When a slave falls ill or travels, then he will get reward similar to that he gets for good deeds practiced at home when in good health.",
+   "source": "Sahih al-Bukhari 2996",
+   "arabicFrom": {
+    "hadith": [
+     "اذا مرض العبد",
+     "صحيحا"
+    ]
+   },
+   "ar": "إِذَا مَرِضَ الْعَبْدُ أَوْ سَافَرَ، كُتِبَ لَهُ مِثْلُ مَا كَانَ يَعْمَلُ مُقِيمًا صَحِيحًا",
+   "sourceAr": "صحيح البخاري ٢٩٩٦"
+  }
+ ],
+ "rains": [
+  {
+   "id": "m898",
+   "en": "It rained upon us as we were with the Messenger of Allah ﷺ. The Messenger of Allah ﷺ removed his cloth (from a part of his body) till the rain fell on it. We said: Messenger of Allah, why did you do this? He said: It is because it (the rainfall) has just come from the Exalted Lord.",
+   "source": "Sahih Muslim 898",
+   "arabicFrom": {
+    "hadith": [
+     "اصابنا ونحن مع رسول الله",
+     "بربه تعالى"
+    ]
+   },
+   "ar": "أَصَابَنَا وَنَحْنُ مَعَ رَسُولِ اللَّهِ صلى الله عليه وسلم مَطَرٌ قَالَ فَحَسَرَ رَسُولُ اللَّهِ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ ثَوْبَهُ حَتَّى أَصَابَهُ مِنْ الْمَطَرِ فَقُلْنَا يَا رَسُولَ اللَّهِ لِمَ صَنَعْتَ هَذَا قَالَ لِأَنَّهُ حَدِيثُ عَهْدٍ بِرَبِّهِ تَعَالَى",
+   "sourceAr": "صحيح مسلم ٨٩٨"
+  },
+  {
+   "id": "b1032",
+   "en": "Whenever Allah's Messenger ﷺ saw the rain, he used to say, \"O Allah! Let it be a strong fruitful rain.\"",
+   "source": "Sahih al-Bukhari 1032",
+   "arabicFrom": {
+    "hadith": [
+     "ان رسول الله صلى الله عليه وسلم كان اذا",
+     "نافعا"
+    ]
+   },
+   "ar": "أَنَّ رَسُولَ اللَّهِ صلى الله عليه وسلم كَانَ إِذَا رَأَى الْمَطَرَ قَالَ صَيِّبًا نَافِعًا",
+   "sourceAr": "صحيح البخاري ١٠٣٢"
+  },
+  {
+   "id": "q50_9",
+   "en": "And We have sent down blessed rain from the sky and made grow thereby gardens and grain from the harvest.",
+   "source": "Qaf 50:9",
+   "surah": 50,
+   "ayah": 9,
+   "arabicFrom": {
+    "quran": "50:9"
+   },
+   "ar": "وَنَزَّلْنَا مِنَ ٱلسَّمَآءِ مَآءًۭ مُّبَـٰرَكًۭا فَأَنۢبَتْنَا بِهِۦ جَنَّـٰتٍۢ وَحَبَّ ٱلْحَصِيدِ ﴿٩﴾",
+   "sourceAr": "ق ٩"
+  },
+  {
+   "id": "q25_48",
+   "en": "And it is He who sends the winds as good tidings before His mercy, and We send down from the sky pure water.",
+   "source": "Al-Furqan 25:48",
+   "surah": 25,
+   "ayah": 48,
+   "arabicFrom": {
+    "quran": "25:48"
+   },
+   "ar": "وَهُوَ ٱلَّذِىٓ أَرْسَلَ ٱلرِّيَـٰحَ بُشْرًۢا بَيْنَ يَدَىْ رَحْمَتِهِۦ وَأَنزَلْنَا مِنَ ٱلسَّمَآءِ مَآءًۭ طَهُورًۭا ﴿٤٨﴾",
+   "sourceAr": "الفرقان ٤٨"
+  },
+  {
+   "id": "q42_28",
+   "en": "And it is He who sends down the rain after they had despaired and spreads His mercy. And He is the Protector, the Praiseworthy.",
+   "source": "Ash-Shura 42:28",
+   "surah": 42,
+   "ayah": 28,
+   "arabicFrom": {
+    "quran": "42:28"
+   },
+   "ar": "وَهُوَ ٱلَّذِى يُنَزِّلُ ٱلْغَيْثَ مِنۢ بَعْدِ مَا قَنَطُوا۟ وَيَنشُرُ رَحْمَتَهُۥ وَهُوَ ٱلْوَلِىُّ ٱلْحَمِيدُ ﴿٢٨﴾",
+   "sourceAr": "الشورى ٢٨"
+  }
+ ],
+ "why": [
+  {
+   "id": "m2664",
+   "en": "A strong believer is better and is more lovable to Allah than a weak believer, and there is good in everyone.",
+   "source": "Sahih Muslim 2664",
+   "arabicFrom": {
+    "hadith": [
+     "المؤمن القوي خير",
+     "وفي كل خير"
+    ]
+   },
+   "ar": "الْمُؤْمِنُ الْقَوِيُّ خَيْرٌ وَأَحَبُّ إِلَى اللَّهِ مِنَ الْمُؤْمِنِ الضَّعِيفِ وَفِي كُلٍّ خَيْرٌ",
+   "sourceAr": "صحيح مسلم ٢٦٦٤"
+  },
+  {
+   "id": "b1975",
+   "en": "Your body has a right on you.",
+   "source": "Sahih al-Bukhari 1975",
+   "arabicFrom": {
+    "hadith": [
+     "فان لجسدك عليك حقا",
+     "فان لجسدك عليك حقا"
+    ]
+   },
+   "ar": "فَإِنَّ لِجَسَدِكَ عَلَيْكَ حَقًّا",
+   "sourceAr": "صحيح البخاري ١٩٧٥"
+  },
+  {
+   "id": "b2989",
+   "en": "(Saying) a good word is also Sadaqa, and every step taken on one's way to offer the compulsory prayer (in the mosque) is also Sadaqa.",
+   "source": "Sahih al-Bukhari 2989",
+   "arabicFrom": {
+    "hadith": [
+     "والكلمة الطيبة صدقة",
+     "الى الصلاة صدقة"
+    ]
+   },
+   "ar": "وَالْكَلِمَةُ الطَّيِّبَةُ صَدَقَةٌ، وَكُلُّ خَطْوَةٍ يَخْطُوهَا إِلَى الصَّلاَةِ صَدَقَةٌ",
+   "sourceAr": "صحيح البخاري ٢٩٨٩"
+  }
+ ]
+}

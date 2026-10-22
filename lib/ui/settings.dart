@@ -7,6 +7,7 @@ import '../core/light.dart';
 import '../store.dart';
 import 'step_access.dart';
 import 'theme.dart';
+import 'words.dart';
 
 void showSettings(BuildContext context) => showModalBottomSheet<void>(
   context: context,
@@ -24,8 +25,8 @@ const privacyUrl = 'https://darian7b7.github.io/nur/privacy.html';
 /// The family's other apps for Nūr's people. Shown only once [live]: switch each on when it is on
 /// Google Play (and keep its id the same as the one published).
 const familyApps = [
-  (name: 'Sakina', line: 'Quran verses for how you feel', id: 'app.sakina.sakina', icon: Icons.auto_stories_outlined, live: false),
-  (name: 'Majlis', line: 'A quiz on the Quran and the Sunnah', id: 'app.majlis.majlis', icon: Icons.groups_outlined, live: false),
+  (name: 'Sakina', id: 'app.sakina.sakina', icon: Icons.auto_stories_outlined, live: false),
+  (name: 'Majlis', id: 'app.majlis.majlis', icon: Icons.groups_outlined, live: false),
 ];
 
 class _Settings extends StatelessWidget {
@@ -40,7 +41,7 @@ class _Settings extends StatelessWidget {
       padding: const EdgeInsets.only(top: 18, bottom: 8),
       child: Text(
         s.toUpperCase(),
-        style: TextStyle(color: muted, fontSize: 12, letterSpacing: 1.6, fontWeight: FontWeight.w700),
+        style: TextStyle(color: muted, fontSize: 12, letterSpacing: context.lang == 'ar' ? 0 : 1.6, fontWeight: FontWeight.w700),
       ),
     );
     Widget chip(String label, bool on, VoidCallback onTap) => ChoiceChip(
@@ -54,6 +55,7 @@ class _Settings extends StatelessWidget {
       showCheckmark: false,
     );
     final height = (store.strideCm / 0.415).round();
+    final l = context.l;
 
     return SafeArea(
       child: SingleChildScrollView(
@@ -61,15 +63,25 @@ class _Settings extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Settings',
+            Text(
+              l.settings,
               style: TextStyle(color: ink, fontSize: 24, fontWeight: FontWeight.w700),
             ),
-            heading('Your daily light'),
-            Wrap(spacing: 8, runSpacing: 8, children: [for (final g in goals) chip(distanceText(g), store.goal == g, () => store.setGoal(g))]),
+            heading(l.language),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                chip(l.languagePhone, store.language == 'system', () => store.setLanguage('system')),
+                chip('English', store.language == 'en', () => store.setLanguage('en')),
+                chip('العربية', store.language == 'ar', () => store.setLanguage('ar')),
+              ],
+            ),
+            heading(l.yourDailyLight),
+            Wrap(spacing: 8, runSpacing: 8, children: [for (final g in goals) chip(context.dist(g), store.goal == g, () => store.setGoal(g))]),
             const SizedBox(height: 6),
-            Text('Full light when you reach it. Any step brightens the sky.', style: TextStyle(color: muted, fontSize: 13)),
-            heading('Your height'),
+            Text(l.dailyLightNote, style: TextStyle(color: muted, fontSize: 13)),
+            heading(l.yourHeight),
             Row(
               children: [
                 Expanded(
@@ -79,22 +91,22 @@ class _Settings extends StatelessWidget {
                     max: 210,
                     divisions: 80,
                     activeColor: gold,
-                    label: '$height cm',
+                    label: l.cm('$height'),
                     onChanged: (v) => store.setStride(strideFor(v.round())),
                   ),
                 ),
                 SizedBox(
                   width: 64,
                   child: Text(
-                    '$height cm',
+                    l.cm('$height'),
                     textAlign: TextAlign.end,
                     style: const TextStyle(color: ink, fontWeight: FontWeight.w600),
                   ),
                 ),
               ],
             ),
-            Text('For your stride: ${store.strideCm} cm a step.', style: TextStyle(color: muted, fontSize: 13)),
-            heading('Your steps'),
+            Text(l.strideNote('${store.strideCm}'), style: TextStyle(color: muted, fontSize: 13)),
+            heading(l.yourSteps),
             Material(
               color: Colors.white.withValues(alpha: 0.06),
               borderRadius: BorderRadius.circular(18),
@@ -103,7 +115,7 @@ class _Settings extends StatelessWidget {
                 child: StepAccess(ink: ink, muted: muted),
               ),
             ),
-            heading('Daily walk reminder'),
+            heading(l.dailyReminder),
             Material(
               color: Colors.white.withValues(alpha: 0.06),
               borderRadius: BorderRadius.circular(18),
@@ -114,14 +126,11 @@ class _Settings extends StatelessWidget {
                     value: store.remind,
                     activeThumbColor: gold,
                     onChanged: (v) => store.setReminder(on: v),
-                    title: const Text(
-                      'Remind me to walk',
-                      style: TextStyle(color: ink, fontWeight: FontWeight.w600),
+                    title: Text(
+                      l.remindMe,
+                      style: const TextStyle(color: ink, fontWeight: FontWeight.w600),
                     ),
-                    subtitle: Text(
-                      "One quiet notification a day (no sound), only on days you haven't reached your light yet.",
-                      style: TextStyle(color: muted, height: 1.35),
-                    ),
+                    subtitle: Text(l.remindNote, style: TextStyle(color: muted, height: 1.35)),
                   ),
                   if (store.reminderRefused)
                     Padding(
@@ -129,19 +138,19 @@ class _Settings extends StatelessWidget {
                       child: Row(
                         children: [
                           Expanded(
-                            child: Text('Notifications are off for Nūr in your phone\'s settings.', style: TextStyle(color: muted)),
+                            child: Text(l.notificationsOff, style: TextStyle(color: muted)),
                           ),
                           TextButton(
                             style: TextButton.styleFrom(foregroundColor: gold),
                             onPressed: openAppSettings,
-                            child: const Text('Open settings'),
+                            child: Text(l.openSettings),
                           ),
                         ],
                       ),
                     ),
                   if (store.remind) ...[
                     ListTile(
-                      title: const Text('Time', style: TextStyle(color: ink)),
+                      title: Text(l.time, style: const TextStyle(color: ink)),
                       trailing: Text(
                         _hhmm(store.remindAt),
                         style: const TextStyle(color: gold, fontSize: 18, fontWeight: FontWeight.w700),
@@ -158,7 +167,7 @@ class _Settings extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 4),
                       child: Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(store.reminderText(), style: TextStyle(color: muted, height: 1.35)),
+                        child: Text(_reminderText(context, store), style: TextStyle(color: muted, height: 1.35)),
                       ),
                     ),
                   ],
@@ -166,7 +175,7 @@ class _Settings extends StatelessWidget {
               ),
             ),
             if (familyApps.any((a) => a.live)) ...[
-              heading('More from us'),
+              heading(l.moreFromUs),
               Material(
                 color: Colors.white.withValues(alpha: 0.06),
                 borderRadius: BorderRadius.circular(18),
@@ -180,7 +189,7 @@ class _Settings extends StatelessWidget {
                           a.name,
                           style: const TextStyle(color: ink, fontWeight: FontWeight.w600),
                         ),
-                        subtitle: Text(a.line, style: TextStyle(color: muted)),
+                        subtitle: Text(a.name == 'Sakina' ? l.sakinaLine : l.majlisLine, style: TextStyle(color: muted)),
                         trailing: Icon(Icons.open_in_new_rounded, color: muted, size: 18),
                         onTap: () =>
                             launchUrl(Uri.parse('https://play.google.com/store/apps/details?id=${a.id}'), mode: LaunchMode.externalApplication),
@@ -189,16 +198,13 @@ class _Settings extends StatelessWidget {
                 ),
               ),
             ],
-            heading('Your data'),
-            Text(
-              'Everything stays on this phone. Nūr reads only your step count: no location, no account.',
-              style: TextStyle(color: muted, height: 1.4),
-            ),
+            heading(l.yourData),
+            Text(l.dataNote, style: TextStyle(color: muted, height: 1.4)),
             const SizedBox(height: 8),
             TextButton(
               style: TextButton.styleFrom(foregroundColor: gold, padding: EdgeInsets.zero),
               onPressed: () => launchUrl(Uri.parse(privacyUrl), mode: LaunchMode.externalApplication),
-              child: const Text('Privacy policy'),
+              child: Text(l.privacyPolicy),
             ),
             TextButton(
               style: TextButton.styleFrom(foregroundColor: ink.withValues(alpha: 0.8), padding: EdgeInsets.zero),
@@ -206,17 +212,17 @@ class _Settings extends StatelessWidget {
                 final yes = await showDialog<bool>(
                   context: context,
                   builder: (d) => AlertDialog(
-                    title: const Text('Forget all walks?'),
-                    content: const Text('Your distances and the light you found. Your settings stay.'),
+                    title: Text(l.forgetTitle),
+                    content: Text(l.forgetBody),
                     actions: [
-                      TextButton(onPressed: () => Navigator.of(d).pop(false), child: const Text('Keep')),
-                      FilledButton(onPressed: () => Navigator.of(d).pop(true), child: const Text('Forget')),
+                      TextButton(onPressed: () => Navigator.of(d).pop(false), child: Text(l.keep)),
+                      FilledButton(onPressed: () => Navigator.of(d).pop(true), child: Text(l.forget)),
                     ],
                   ),
                 );
                 if (yes == true) store.forgetAll();
               },
-              child: const Text('Forget all walks'),
+              child: Text(l.forgetAllWalks),
             ),
           ],
         ),
@@ -226,3 +232,14 @@ class _Settings extends StatelessWidget {
 }
 
 String _hhmm(int m) => '${(m ~/ 60).toString().padLeft(2, '0')}:${(m % 60).toString().padLeft(2, '0')}';
+
+/// "Next: today around 17:00." and, when not today, why not.
+String _reminderText(BuildContext context, Store store) {
+  final time = _hhmm(store.remindAt);
+  return switch (store.reminderNext()) {
+    null => '',
+    ReminderNext.today => context.l.reminderToday(time),
+    ReminderNext.passed => context.l.reminderPassed(time),
+    ReminderNext.full => context.l.reminderFull(time),
+  };
+}

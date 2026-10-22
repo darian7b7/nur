@@ -17,6 +17,7 @@ ThemeData buildTheme(Brightness brightness) {
   final radius = BorderRadius.circular(16);
   return ThemeData(
     useMaterial3: true,
+    fontFamilyFallback: const ['NotoSansArabic'], // Arabic letters (Latin stays in the system font)
     colorScheme: scheme,
     scaffoldBackgroundColor: scheme.surface,
     splashFactory: InkRipple.splashFactory, // the sparkle effect loads a shader on first tap
@@ -24,7 +25,7 @@ ThemeData buildTheme(Brightness brightness) {
       style: FilledButton.styleFrom(
         minimumSize: const Size(0, 58),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(29)),
-        textStyle: const TextStyle(fontFamily: 'Roboto', fontSize: 17, fontWeight: FontWeight.w700, letterSpacing: 0.2),
+        textStyle: const TextStyle(fontFamily: 'Roboto', fontFamilyFallback: ['NotoSansArabic'], fontSize: 17, fontWeight: FontWeight.w700, letterSpacing: 0.2),
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
@@ -48,7 +49,7 @@ class Glass extends StatelessWidget {
 
   final double progress;
   final Widget child;
-  final EdgeInsets padding;
+  final EdgeInsetsGeometry padding;
   final double radius;
   final VoidCallback? onTap;
 

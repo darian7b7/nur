@@ -7,9 +7,10 @@ import 'package:nur/core/light.dart';
 import 'package:nur/store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'nur_test.dart' show FakeSteps;
+import 'nur_test.dart' show loadTestContent, FakeSteps;
 
 void main() {
+  setUpAll(loadTestContent);
   test('5000 random events: the day only grows, every light is real, nothing throws', () async {
     final r = Random(3);
     final steps = FakeSteps();

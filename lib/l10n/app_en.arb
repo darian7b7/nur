@@ -1,0 +1,282 @@
+{
+  "@@locale": "en",
+  "appTitle": "Nūr",
+  "unitM": "m",
+  "unitKm": "km",
+  "todaysLight": "TODAY'S LIGHT",
+  "fullLightToday": "FULL LIGHT TODAY",
+  "hardDayHeading": "A HARD DAY · JUST STEP OUTSIDE",
+  "ofGoal": "of {goal}",
+  "@ofGoal": {
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
+  "cardHardDay": "For a hard day",
+  "cardFoundAt": "Found today at {distance}",
+  "@cardFoundAt": {
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "cardBeforeFirstStep": "Before the first step",
+  "everyLightFound": "Every light of today found.",
+  "nextLightIn": "Next light in {distance}",
+  "@nextLightIn": {
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "tooltipCollection": "The light you found",
+  "tooltipSettings": "Settings",
+  "tooltipAnotherWay": "Another way",
+  "goOut": "Go out",
+  "walkMore": "Walk a little more",
+  "hardDay": "Hard day",
+  "newWay": "New way",
+  "weather": "Weather",
+  "stepsOff": "Steps are off",
+  "stepsOffBody": "Nūr can't see your walk until step counting is allowed.",
+  "turnOn": "Turn on",
+  "lightFound": "Light found",
+  "lightFoundMore": "Light found · more in your collection",
+  "weatherQuestion": "What is it like outside?",
+  "weatherRain": "Rain",
+  "weatherCold": "Cold",
+  "weatherHeat": "Heat",
+  "weatherDark": "Dark",
+  "weatherGrey": "Grey",
+  "weatherRainTip": "A rain jacket or an umbrella, and shoes that can get wet. Rain clears the air and the mind.",
+  "weatherColdTip": "Layers, a hat and gloves. Walk briskly for the first five minutes and you will be warm.",
+  "weatherHeatTip": "Go early or late, in the shade. Water with you, a cap, light clothes.",
+  "weatherDarkTip": "Lit streets you know, something bright to wear, a light on your phone if you need it.",
+  "weatherGreyTip": "Grey days need the light most. Even ten minutes outside lifts the day.",
+  "rainIsMercy": "The rain is a mercy",
+  "goOutInRain": "Go out in the rain",
+  "goOutAnyway": "Go out anyway",
+  "newWay0": "Take a street you have never walked down.",
+  "newWay1": "At the first corner, turn the other way than you always do.",
+  "newWay2": "Walk until you have seen three trees, then choose a new direction.",
+  "newWay3": "Walk towards the brightest part of the sky.",
+  "newWay4": "Find a place you have never stood before, and stand there for a moment.",
+  "newWay5": "Walk to the nearest mosque, and back a different way.",
+  "newWay6": "Follow the first bird you see, as far as it goes.",
+  "newWay7": "Walk with the wind at your back, then turn into it on the way home.",
+  "newWay8": "Look up at every corner: notice a window, a roof, the sky.",
+  "newWay9": "Take every second turn to the right.",
+  "newWay10": "Walk to the edge of your neighbourhood, and look past it.",
+  "newWay11": "Choose the quietest street you can find.",
+  "walkingIntoLight": "WALKING INTO THE LIGHT",
+  "walkingInRain": "WALKING IN THE RAIN",
+  "walkSteps": "{steps} steps · {time}",
+  "@walkSteps": {
+    "placeholders": {
+      "steps": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "walkNoSensor": "{time} · steps are counted by your phone",
+  "@walkNoSensor": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "pocket": "The phone can go in your pocket.",
+  "finishWalk": "Finish walk",
+  "wentOut": "You went out.",
+  "steppedOut": "You stepped out.",
+  "underMinute": "under a minute",
+  "minutes": "{n} min",
+  "@minutes": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "inTheRain": "in the rain",
+  "lightsFound": "Lights found",
+  "everyStepCounts": "Every step counts, the small ones too.",
+  "done": "Done",
+  "tagline": "Walk into the light.",
+  "begin": "Begin",
+  "everyStepBringsLight": "Every step\nbrings light",
+  "welcomeBody": "Your day starts at night. As you walk, the sun comes up over your path. Along the way you find verses and hadith about walking, hope and light.",
+  "welcomeHarder": "Rain, cold, a hard day, a place with old memories: Nūr has a small way out for each.",
+  "next": "Next",
+  "yourDailyLight": "Your daily light",
+  "dailyLightQuestion": "How far to full light each day? You can change it any time.",
+  "yourStepsFromPhone": "Your steps, from your phone",
+  "onlyStepCount": "Only the step count. No location, no battery drain, nothing leaves the phone.",
+  "start": "Start",
+  "allowStepCounting": "Allow step counting",
+  "oneMoment": "One moment…",
+  "counterTitle": "Step counter · needed",
+  "counterOn": "Allowed. Every step counts while Nūr is open.",
+  "counterOff": "Nūr needs Android's \"Physical activity\" permission to count your steps. Without it, nothing moves.",
+  "healthConnectTitle": "Health Connect · recommended",
+  "healthConnectOn": "Connected. Steps count also while Nūr is closed.",
+  "healthConnectOff": "Lets Nūr see the steps you took while it was closed, too.",
+  "connectHealthConnect": "Connect Health Connect",
+  "settings": "Settings",
+  "language": "Language",
+  "languagePhone": "Phone language",
+  "dailyLightNote": "Full light when you reach it. Any step brightens the sky.",
+  "yourHeight": "Your height",
+  "cm": "{n} cm",
+  "@cm": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "strideNote": "For your stride: {cm} cm a step.",
+  "@strideNote": {
+    "placeholders": {
+      "cm": {
+        "type": "String"
+      }
+    }
+  },
+  "yourSteps": "Your steps",
+  "dailyReminder": "Daily walk reminder",
+  "remindMe": "Remind me to walk",
+  "remindNote": "One quiet notification a day (no sound), only on days you haven't reached your light yet.",
+  "notificationsOff": "Notifications are off for Nūr in your phone's settings.",
+  "openSettings": "Open settings",
+  "time": "Time",
+  "reminderToday": "Next: today around {time}.",
+  "@reminderToday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderPassed": "Next: tomorrow around {time}. {time} has passed today.",
+  "@reminderPassed": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderFull": "Next: tomorrow around {time}. Today's light is already full, so none today.",
+  "@reminderFull": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "moreFromUs": "More from us",
+  "sakinaLine": "Quran verses for how you feel",
+  "majlisLine": "A quiz on the Quran and the Sunnah",
+  "yourData": "Your data",
+  "dataNote": "Everything stays on this phone. Nūr reads only your step count: no location, no account.",
+  "privacyPolicy": "Privacy policy",
+  "forgetTitle": "Forget all walks?",
+  "forgetBody": "Your distances and the light you found. Your settings stay.",
+  "keep": "Keep",
+  "forget": "Forget",
+  "forgetAllWalks": "Forget all walks",
+  "yourLight": "Your light",
+  "foundOf": "{count} of {total} found",
+  "@foundOf": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "totals": "{all} in all · {week} this week",
+  "@totals": {
+    "placeholders": {
+      "all": {
+        "type": "String"
+      },
+      "week": {
+        "type": "String"
+      }
+    }
+  },
+  "alongEachDay": "ALONG EACH DAY",
+  "alongLongPath": "ALONG THE LONG PATH",
+  "harderDays": "ON THE HARDER DAYS",
+  "whyWeWalk": "WHY WE WALK",
+  "waitingWalks": "{count} more waiting on your walks. Every day has a new path.",
+  "@waitingWalks": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "waitingHarder": "{count} more waiting for hard days and for walks in the rain.",
+  "@waitingHarder": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "walkKmInAll": "Walk {km} km in all",
+  "@walkKmInAll": {
+    "placeholders": {
+      "km": {
+        "type": "String"
+      }
+    }
+  },
+  "fromQuran": "From the Quran",
+  "fromSunnah": "From the Sunnah",
+  "translationQuran": "Translation of the meaning (Saheeh International).",
+  "translationSunnah": "Translation of the meaning (sunnah.com).",
+  "readQuran": "Read with Arabic on {site}",
+  "@readQuran": {
+    "placeholders": {
+      "site": {
+        "type": "String"
+      }
+    }
+  },
+  "readSunnah": "Read with Arabic and grading on {site}",
+  "@readSunnah": {
+    "placeholders": {
+      "site": {
+        "type": "String"
+      }
+    }
+  },
+  "couldNotOpen": "Couldn't open {site}.",
+  "@couldNotOpen": {
+    "placeholders": {
+      "site": {
+        "type": "String"
+      }
+    }
+  },
+  "reminder0": "The light is outside. A short walk?",
+  "reminder1": "Even ten minutes outside brightens the day.",
+  "reminder2": "So walk among its slopes (67:15). The door is right there.",
+  "reminder3": "With hardship will be ease (94:5). Step out for a moment.",
+  "reminder4": "A few steps today. Small and regular is beloved.",
+  "reminder5": "Whatever the weather, a little light is waiting.",
+  "reminder6": "Your body has a right over you. Two minutes outside?"
+}

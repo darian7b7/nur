@@ -1,0 +1,7 @@
+# The app's words live in lib/l10n/app_<language>.arb; Flutter generates the code from them.
+# To add a language: copy app_en.arb to app_<code>.arb, translate the values, and it is in.
+arb-dir: lib/l10n
+template-arb-file: app_en.arb
+output-localization-file: app_localizations.dart
+output-class: L
+nullable-getter: false

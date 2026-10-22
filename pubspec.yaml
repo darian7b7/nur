@@ -42,6 +42,9 @@ dependencies:
   family_reminders:
     path: ../family_kit/family_reminders
   url_launcher: ^6.3.3
+  flutter_localizations:
+    sdk: flutter
+  intl: any
 
 dev_dependencies:
   flutter_test:
@@ -59,11 +62,27 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
+  # The app's words: lib/l10n/app_<language>.arb (see l10n.yaml).
+  generate: true
+  assets:
+    - assets/content/
+  fonts:
+    # Amiri Quran and Amiri (SIL Open Font License, assets/fonts/Amiri-OFL.txt): the Quran in Uthmani
+    # script, and the Arabic of hadith.
+    - family: AmiriQuran
+      fonts:
+        - asset: assets/fonts/AmiriQuran-Regular.ttf
+    - family: Amiri
+      fonts:
+        - asset: assets/fonts/Amiri-Regular.ttf
+    # Noto Sans Arabic (SIL Open Font License, assets/fonts/NotoSansArabic-OFL.txt): Arabic words on
+    # buttons and labels, the same on every phone.
+    - family: NotoSansArabic
+      fonts:
+        - asset: assets/fonts/NotoSansArabic-Regular.ttf
+        - asset: assets/fonts/NotoSansArabic-Bold.ttf
+          weight: 700
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -3,11 +3,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../core/light.dart';
 import '../store.dart';
 import 'light_card.dart';
 import 'theme.dart';
+import 'words.dart';
 
 void openCollection(BuildContext context) => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const Collection()));
 
@@ -23,12 +25,13 @@ class Collection extends StatelessWidget {
     final count = all.where((l) => store.found.containsKey(l.id)).length;
     final week = store.lastWeek();
     final weekKm = week.fold(0, (s, m) => s + m);
-    const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
     final today = DateTime.now();
+    final l = context.l;
+    final dayLetter = DateFormat.EEEEE(context.lang); // M T W … in the reader's language
 
     return Scaffold(
       backgroundColor: night,
-      appBar: AppBar(backgroundColor: night, foregroundColor: ink, title: const Text('Your light'), surfaceTintColor: Colors.transparent),
+      appBar: AppBar(backgroundColor: night, foregroundColor: ink, title: Text(l.yourLight), surfaceTintColor: Colors.transparent),
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 560),
@@ -42,11 +45,11 @@ class Collection extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '$count of ${all.length} found',
+                        l.foundOf('$count', '${all.length}'),
                         style: const TextStyle(color: ink, fontSize: 22, fontWeight: FontWeight.w700),
                       ),
                       const SizedBox(height: 4),
-                      Text('${distanceText(store.totalKm * 1000)} in all · ${distanceText(weekKm)} this week', style: TextStyle(color: muted)),
+                      Text(l.totals(context.dist(store.totalKm * 1000), context.dist(weekKm)), style: TextStyle(color: muted)),
                       const SizedBox(height: 16),
                       // The last 7 days: each a small sun, brighter the closer to the goal.
                       Row(
@@ -58,7 +61,7 @@ class Collection extends StatelessWidget {
                                   _DaySun(fraction: min(1.0, m / max(1, store.goal))),
                                   const SizedBox(height: 6),
                                   Text(
-                                    days[DateTime(today.year, today.month, today.day - (6 - i)).weekday - 1],
+                                    dayLetter.format(DateTime(today.year, today.month, today.day - (6 - i))),
                                     style: TextStyle(color: muted, fontSize: 12),
                                   ),
                                 ],
@@ -72,34 +75,37 @@ class Collection extends StatelessWidget {
               ),
               const SizedBox(height: 22),
               Text(
-                'ALONG EACH DAY',
-                style: TextStyle(color: muted, fontSize: 12, letterSpacing: 1.6, fontWeight: FontWeight.w700),
+                l.alongEachDay,
+                style: TextStyle(color: muted, fontSize: 12, letterSpacing: context.lang == 'ar' ? 0 : 1.6, fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: 10),
               ..._found(pool, store),
-              _Waiting(count: pool.where((l) => !store.found.containsKey(l.id)).length, what: 'on your walks. Every day has a new path.'),
+              _Waiting(
+                l.waitingWalks('${pool.where((x) => !store.found.containsKey(x.id)).length}'),
+                show: pool.any((x) => !store.found.containsKey(x.id)),
+              ),
               const SizedBox(height: 14),
               Text(
-                'ALONG THE LONG PATH',
-                style: TextStyle(color: muted, fontSize: 12, letterSpacing: 1.6, fontWeight: FontWeight.w700),
+                l.alongLongPath,
+                style: TextStyle(color: muted, fontSize: 12, letterSpacing: context.lang == 'ar' ? 0 : 1.6, fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: 10),
               for (final (_, l) in longPath) _Entry(light: l, foundOn: store.found[l.id]),
               const SizedBox(height: 14),
               Text(
-                'ON THE HARDER DAYS',
-                style: TextStyle(color: muted, fontSize: 12, letterSpacing: 1.6, fontWeight: FontWeight.w700),
+                l.harderDays,
+                style: TextStyle(color: muted, fontSize: 12, letterSpacing: context.lang == 'ar' ? 0 : 1.6, fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: 10),
               ..._found([...hardDays, ...rains], store),
               _Waiting(
-                count: [...hardDays, ...rains].where((l) => !store.found.containsKey(l.id)).length,
-                what: 'for hard days and for walks in the rain.',
+                l.waitingHarder('${[...hardDays, ...rains].where((x) => !store.found.containsKey(x.id)).length}'),
+                show: [...hardDays, ...rains].any((x) => !store.found.containsKey(x.id)),
               ),
               const SizedBox(height: 14),
               Text(
-                'WHY WE WALK',
-                style: TextStyle(color: muted, fontSize: 12, letterSpacing: 1.6, fontWeight: FontWeight.w700),
+                l.whyWeWalk,
+                style: TextStyle(color: muted, fontSize: 12, letterSpacing: context.lang == 'ar' ? 0 : 1.6, fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: 10),
               for (final l in why)
@@ -132,15 +138,15 @@ List<Widget> _found(List<Light> lights, Store store) {
 
 /// How many are still waiting, without a long list of locks.
 class _Waiting extends StatelessWidget {
-  const _Waiting({required this.count, required this.what});
+  const _Waiting(this.text, {required this.show});
 
-  final int count;
-  final String what;
+  final String text;
+  final bool show;
 
   @override
   Widget build(BuildContext context) {
     const ink = Color(0xFFF4F1EA);
-    if (count == 0) return const SizedBox();
+    if (!show) return const SizedBox();
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
@@ -153,7 +159,7 @@ class _Waiting extends StatelessWidget {
           Icon(Icons.auto_awesome_outlined, size: 18, color: ink.withValues(alpha: 0.45)),
           const SizedBox(width: 12),
           Expanded(
-            child: Text('$count more waiting $what', style: TextStyle(color: ink.withValues(alpha: 0.6), height: 1.35)),
+            child: Text(text, style: TextStyle(color: ink.withValues(alpha: 0.6), height: 1.35)),
           ),
         ],
       ),
@@ -189,7 +195,7 @@ class _Entry extends StatelessWidget {
             Icon(Icons.lock_outline_rounded, size: 18, color: ink.withValues(alpha: 0.4)),
             const SizedBox(width: 12),
             Expanded(
-              child: Text(findHint(light), style: TextStyle(color: ink.withValues(alpha: 0.55))),
+              child: Text(context.l.walkKmInAll('${longPathKm(light) ?? ''}'), style: TextStyle(color: ink.withValues(alpha: 0.55))),
             ),
           ],
         ),

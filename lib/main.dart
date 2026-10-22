@@ -1,7 +1,10 @@
 import 'package:family_reminders/family_reminders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'core/light.dart';
+import 'l10n/app_localizations.dart';
 import 'reminder.dart';
 import 'steps.dart';
 import 'store.dart';
@@ -13,6 +16,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+  loadContent(await rootBundle.loadString(contentAsset)); // the verses and hadith
   final reminder = LocalReminder();
   try {
     await initLocalTimezone();
@@ -27,18 +31,58 @@ Future<void> main() async {
   );
 }
 
-class NurApp extends StatelessWidget {
+class NurApp extends StatefulWidget {
   const NurApp({super.key, required this.store});
 
   final Store store;
 
   @override
+  State<NurApp> createState() => _NurAppState();
+}
+
+class _NurAppState extends State<NurApp> {
+  late String _language = widget.store.language;
+
+  // The app is rebuilt only when the language changes, not with every step.
+  void _onStore() {
+    if (widget.store.language != _language) setState(() => _language = widget.store.language);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    widget.store.addListener(_onStore);
+  }
+
+  @override
+  void dispose() {
+    widget.store.removeListener(_onStore);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) => StoreScope(
-    notifier: store,
+    notifier: widget.store,
     child: MaterialApp(
-      title: 'Nūr',
+      onGenerateTitle: (context) => L.of(context).appTitle,
       debugShowCheckedModeBanner: false,
       theme: buildTheme(Brightness.dark), // the sky is the page; sheets are always night
+      // English and Arabic (right to left); the phone's language unless one is chosen in Settings.
+      // Any other phone language falls back to English.
+      localizationsDelegates: const [
+        L.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: L.supportedLocales,
+      locale: _language == 'system' ? null : Locale(_language),
+      localeListResolutionCallback: (locales, supported) {
+        for (final l in locales ?? const <Locale>[]) {
+          if (supported.any((s) => s.languageCode == l.languageCode)) return Locale(l.languageCode);
+        }
+        return const Locale('en');
+      },
       home: const _Home(),
     ),
   );

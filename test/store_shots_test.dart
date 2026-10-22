@@ -10,7 +10,7 @@ import 'package:nur/main.dart';
 import 'package:nur/store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'nur_test.dart' show FakeSteps, settle;
+import 'nur_test.dart' show loadTestContent, FakeSteps, settle;
 import 'screens_test.dart' show loadFonts;
 
 const out = String.fromEnvironment('SHOTS');
@@ -31,6 +31,7 @@ Future<void> closeSheets(WidgetTester tester) async {
 }
 
 void main() {
+  setUpAll(loadTestContent);
   testWidgets('store screenshots', (tester) async {
     if (out.isEmpty) return;
     await loadFonts();

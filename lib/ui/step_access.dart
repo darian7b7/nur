@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../store.dart';
 import 'theme.dart';
+import 'words.dart';
 
 class StepAccess extends StatefulWidget {
   const StepAccess({super.key, required this.ink, required this.muted, this.accent = gold});
@@ -63,7 +64,7 @@ class _StepAccessState extends State<StepAccess> {
                       foregroundColor: widget.ink,
                       side: BorderSide(color: widget.ink.withValues(alpha: 0.5)),
                     ),
-                    child: Text(_busy ? 'One moment…' : button),
+                    child: Text(_busy ? context.l.oneMoment : button),
                   ),
                 ],
               ],
@@ -78,18 +79,18 @@ class _StepAccessState extends State<StepAccess> {
       children: [
         row(
           on: store.counterOk == true,
-          title: 'Step counter · needed',
-          onText: 'Allowed. Every step counts while Nūr is open.',
-          offText: 'Nūr needs Android\'s "Physical activity" permission to count your steps. Without it, nothing moves.',
-          button: 'Allow step counting',
+          title: context.l.counterTitle,
+          onText: context.l.counterOn,
+          offText: context.l.counterOff,
+          button: context.l.allowStepCounting,
           onTap: () => _run(store.allowCounter),
         ),
         row(
           on: store.connected,
-          title: 'Health Connect · recommended',
-          onText: 'Connected. Steps count also while Nūr is closed.',
-          offText: 'Lets Nūr see the steps you took while it was closed, too.',
-          button: 'Connect Health Connect',
+          title: context.l.healthConnectTitle,
+          onText: context.l.healthConnectOn,
+          offText: context.l.healthConnectOff,
+          button: context.l.connectHealthConnect,
           onTap: () => _run(store.connectSteps),
         ),
       ],

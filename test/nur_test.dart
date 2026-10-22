@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -54,13 +55,11 @@ class FakeReminder implements Reminder {
   @override
   Future<bool> requestPermission() async => true;
 
-  int shown = 0;
+  List<String> lines = [];
 
   @override
-  Future<void> showNow() async => shown++;
-
-  @override
-  Future<void> plan(int? at, {required bool skipToday}) async {
+  Future<void> plan(int? at, {required bool skipToday, required String title, required List<String> lines}) async {
+    this.lines = lines;
     this.at = at;
     skippedToday = skipToday;
   }
@@ -126,7 +125,13 @@ Future<void> settle(WidgetTester tester, [int frames = 10]) async {
   }
 }
 
+/// The verses and hadith, as the app loads them.
+void loadTestContent() => loadContent(File('assets/content/lights.json').readAsStringSync());
+
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  setUpAll(loadTestContent);
+
   group('the light', () {
     test('every light has a text and a reference; the day path climbs; ids are unique', () {
       final ids = <String>{};
@@ -207,6 +212,31 @@ void main() {
     });
   });
 
+  group('Arabic', () {
+    test('every verse and hadith has its Arabic and an Arabic reference', () {
+      final latin = RegExp('[A-Za-z]');
+      for (final l in [...allLights, dawn, ...why]) {
+        expect(l.arabic, isNotEmpty, reason: l.id);
+        expect(latin.hasMatch(l.arabic), isFalse, reason: '${l.id}: Latin letters in the Arabic');
+        expect(l.sourceArabic, matches(RegExp(r'^[\u0600-\u06FF ]+ [٠-٩]+(–[٠-٩]+)?$')), reason: l.id);
+        expect(l.textIn('ar'), l.arabic);
+        expect(l.textIn('en'), l.text);
+      }
+    });
+
+    test('the English and Arabic language files have the same texts, with the same blanks', () {
+      final en = jsonDecode(File('lib/l10n/app_en.arb').readAsStringSync()) as Map<String, dynamic>;
+      final ar = jsonDecode(File('lib/l10n/app_ar.arb').readAsStringSync()) as Map<String, dynamic>;
+      final keys = en.keys.where((k) => !k.startsWith('@'));
+      expect(ar.keys.where((k) => !k.startsWith('@')).toSet(), keys.toSet());
+      for (final k in keys) {
+        final blanks = RegExp(r'\{(\w+)\}').allMatches(en[k] as String).map((m) => m[1]).toSet();
+        expect(RegExp(r'\{(\w+)\}').allMatches(ar[k] as String).map((m) => m[1]).toSet(), blanks, reason: k);
+        expect((ar[k] as String).trim(), isNotEmpty, reason: k);
+      }
+    });
+  });
+
   group('store', () {
     test('steps become metres; each light is found once; the most of the day is kept', () async {
       final s = await store();
@@ -256,17 +286,22 @@ void main() {
       expect(s.found.containsKey('q29_20'), isTrue, reason: '5 km in all');
     });
 
-    test('the reminder says when it comes next, and why not today', () async {
-      final s = await store(reminder: FakeReminder());
+    test('the reminder says when it comes next, and why not today; it speaks the chosen language', () async {
+      final r = FakeReminder();
+      final s = await store(reminder: r);
       await s.setReminder(on: true, at: 17 * 60);
       final morning = DateTime.now().copyWith(hour: 9, minute: 0);
       final evening = DateTime.now().copyWith(hour: 20, minute: 0);
-      expect(s.reminderText(morning), 'Next: today around 17:00.');
-      expect(s.reminderText(evening), 'Next: tomorrow around 17:00. 17:00 has passed today.');
+      expect(s.reminderNext(morning), ReminderNext.today);
+      expect(s.reminderNext(evening), ReminderNext.passed);
+      expect(r.lines.first, 'The light is outside. A short walk?');
+      s.setLanguage('ar');
+      await Future<void>.delayed(Duration.zero);
+      expect(r.lines.first, 'النور في الخارج. مشيٌ قصير؟');
       s.setTodaySteps(5000);
-      expect(s.reminderText(morning), "Next: tomorrow around 17:00. Today's light is already full, so none today.");
+      expect(s.reminderNext(morning), ReminderNext.full);
       await s.setReminder(on: false);
-      expect(s.reminderText(morning), '');
+      expect(s.reminderNext(morning), isNull);
     });
 
     test('refused notifications: the reminder stays off and says why', () async {
@@ -409,6 +444,34 @@ void main() {
       expect(find.text('Steps are off'), findsNothing);
     });
 
+    testWidgets('in Arabic: right to left, Arabic words, the verse in Arabic; English again from Settings', (tester) async {
+      final (s, steps) = await pump(tester);
+      s.setLanguage('ar');
+      await settle(tester);
+      expect(Directionality.of(tester.element(find.text('اخرج'))), TextDirection.rtl);
+      expect(find.text('نور اليوم'), findsOneWidget);
+      expect(find.textContaining(dawn.arabic.substring(0, 12)), findsOneWidget, reason: 'the dawn verse in Arabic');
+      expect(find.text(dawn.sourceArabic), findsOneWidget);
+      await tester.tap(find.text('اخرج'));
+      await settle(tester);
+      expect(find.text('تمشي نحو النور'), findsOneWidget);
+      steps.live_.add(5000);
+      await settle(tester, 2);
+      steps.live_.add(5600);
+      await settle(tester);
+      expect(find.textContaining(' م'), findsWidgets, reason: 'metres in Arabic');
+      await tester.tap(find.text('إنهاء المشي'));
+      await settle(tester);
+      await tester.tap(find.text('تم'));
+      await settle(tester);
+      await tester.tap(find.byTooltip('الإعدادات'));
+      await settle(tester);
+      await tester.tap(find.text('English'));
+      await settle(tester);
+      expect(find.text('Settings'), findsOneWidget);
+      expect(s.language, 'en');
+    });
+
     testWidgets('Today at dawn: the first verse, the next light, Go out', (tester) async {
       await pump(tester);
       expect(find.text("TODAY'S LIGHT"), findsOneWidget);
@@ -523,12 +586,23 @@ void main() {
       expect(find.text('Remind me to walk'), findsOneWidget);
     });
 
-    for (final (size, text) in const [(Size(360, 640), 1.0), (Size(360, 640), 2.0), (Size(320, 568), 1.5), (Size(412, 915), 1.3)]) {
-      testWidgets('every screen fits: ${size.width.toInt()}×${size.height.toInt()}, text ×$text', (tester) async {
+    for (final (size, text, lang) in const [
+      (Size(360, 640), 1.0, 'en'),
+      (Size(360, 640), 2.0, 'en'),
+      (Size(320, 568), 1.5, 'en'),
+      (Size(412, 915), 1.3, 'en'),
+      (Size(360, 640), 1.0, 'ar'),
+      (Size(360, 640), 2.0, 'ar'),
+      (Size(320, 568), 1.5, 'ar'),
+    ]) {
+      testWidgets('every screen fits: ${size.width.toInt()}×${size.height.toInt()}, text ×$text, $lang', (tester) async {
         final errors = Errors();
         await errors.run(() async {
           final (s, steps) = await pump(tester, size: size, text: text, welcomed: false);
-          for (final b in ['Begin', 'Next']) {
+          s.setLanguage(lang);
+          await settle(tester);
+          final ar = lang == 'ar';
+          for (final b in ar ? ['ابدأ', 'التالي'] : ['Begin', 'Next']) {
             await tester.runAsync(() => Scrollable.ensureVisible(tester.element(find.text(b))));
             await settle(tester, 2);
             await tester.tap(find.text(b));
@@ -536,32 +610,34 @@ void main() {
           }
           s.welcome();
           await settle(tester);
+          String t(String en, String arabic) => ar ? arabic : en;
           for (final steps_ in [0, 1500, 3000, 6000]) {
             s.setTodaySteps(steps_);
             await settle(tester, 15);
           }
-          await tester.tap(find.byTooltip('Settings'));
+          await tester.tap(find.byTooltip(t('Settings', 'الإعدادات')));
           await settle(tester);
           await tester.tapAt(const Offset(5, 5));
           await settle(tester);
-          await tester.tap(find.byTooltip('The light you found'));
+          await tester.tap(find.byTooltip(t('The light you found', 'النور الذي وجدته')));
           await settle(tester);
           await tester.drag(find.byType(Scrollable).first, const Offset(0, -5000));
           await settle(tester);
           Navigator.of(tester.element(find.byType(Collection))).pop();
           await settle(tester);
-          await tester.runAsync(() => Scrollable.ensureVisible(tester.element(find.text('Walk a little more'))));
+          final more = t('Walk a little more', 'امشِ قليلًا بعد');
+          await tester.runAsync(() => Scrollable.ensureVisible(tester.element(find.text(more))));
           await settle(tester, 2);
-          await tester.tap(find.text('New way'));
-          await tester.tap(find.text('Walk a little more'));
+          await tester.tap(find.text(t('New way', 'طريق جديد')));
+          await tester.tap(find.text(more));
           await settle(tester);
           steps.live_.add(1000);
           await settle(tester, 2);
           steps.live_.add(9000);
           await settle(tester);
-          await tester.tap(find.text('Finish walk'));
+          await tester.tap(find.text(t('Finish walk', 'إنهاء المشي')));
           await settle(tester);
-          await tester.tap(find.text('Done'));
+          await tester.tap(find.text(t('Done', 'تم')));
           await settle(tester);
           await tester.pumpWidget(const SizedBox());
         });

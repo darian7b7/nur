@@ -11,6 +11,7 @@ import '../store.dart';
 import 'light_card.dart';
 import 'sky.dart';
 import 'theme.dart';
+import 'words.dart';
 
 class WalkScreen extends StatefulWidget {
   const WalkScreen({super.key, this.newWay, this.rainy = false});
@@ -131,13 +132,13 @@ class _WalkScreenState extends State<WalkScreen> with SingleTickerProviderStateM
                                   child: Column(
                                     children: [
                                       Text(
-                                        widget.rainy ? 'WALKING IN THE RAIN' : 'WALKING INTO THE LIGHT',
+                                        widget.rainy ? context.l.walkingInRain : context.l.walkingIntoLight,
                                         style: TextStyle(color: muted, fontSize: 12, letterSpacing: 2, fontWeight: FontWeight.w700),
                                       ),
                                       const SizedBox(height: 18),
                                       FittedBox(
                                         child: Text(
-                                          preciseDistance(_walkMetres), // every metre while you walk
+                                          context.distExact(_walkMetres), // every metre while you walk
                                           style: TextStyle(
                                             color: ink,
                                             fontSize: 64,
@@ -148,8 +149,8 @@ class _WalkScreenState extends State<WalkScreen> with SingleTickerProviderStateM
                                       ),
                                       Text(
                                         noSensor
-                                            ? '$mins:${secs.toString().padLeft(2, '0')} · steps are counted by your phone'
-                                            : '$_steps steps · $mins:${secs.toString().padLeft(2, '0')}',
+                                            ? context.l.walkNoSensor('$mins:${secs.toString().padLeft(2, '0')}')
+                                            : context.l.walkSteps('$_steps', '$mins:${secs.toString().padLeft(2, '0')}'),
                                         style: TextStyle(color: muted, fontSize: 16, fontFeatures: const [FontFeature.tabularFigures()]),
                                       ),
                                       if (widget.newWay != null) ...[
@@ -184,11 +185,11 @@ class _WalkScreenState extends State<WalkScreen> with SingleTickerProviderStateM
                                                 key: const ValueKey('next'),
                                                 height: 24,
                                                 child: Text(
-                                                  next == null ? 'Every light of today found' : 'Next light in ${distanceText(next.$1)}',
+                                                  next == null ? context.l.everyLightFound : context.l.nextLightIn(context.dist(next.$1)),
                                                   style: TextStyle(color: muted),
                                                 ),
                                               )
-                                            : LightCard(key: ValueKey(_justFound!.id), light: _justFound!, progress: p, label: 'Light found'),
+                                            : LightCard(key: ValueKey(_justFound!.id), light: _justFound!, progress: p, label: context.l.lightFound),
                                       ),
                                     ],
                                   ),
@@ -198,7 +199,7 @@ class _WalkScreenState extends State<WalkScreen> with SingleTickerProviderStateM
                           ),
                         ),
                         const SizedBox(height: 18),
-                        Text('The phone can go in your pocket.', style: TextStyle(color: muted, fontSize: 13)),
+                        Text(context.l.pocket, style: TextStyle(color: muted, fontSize: 13)),
                         const SizedBox(height: 12),
                         SizedBox(
                           width: double.infinity,
@@ -208,7 +209,7 @@ class _WalkScreenState extends State<WalkScreen> with SingleTickerProviderStateM
                               backgroundColor: p < 0.6 ? const Color(0xFFF4E6C4) : night,
                               foregroundColor: p < 0.6 ? night : const Color(0xFFF4E6C4),
                             ),
-                            child: const Text('Finish walk'),
+                            child: Text(context.l.finishWalk),
                           ),
                         ),
                       ],
@@ -236,6 +237,7 @@ class _WalkDone extends StatelessWidget {
   Widget build(BuildContext context) {
     const ink = Color(0xFFF4F1EA);
     final mins = elapsed.inMinutes;
+    final l = context.l;
     return SafeArea(
       child: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(24, 0, 24, 16),
@@ -244,29 +246,29 @@ class _WalkDone extends StatelessWidget {
             const Icon(Icons.wb_sunny_outlined, color: gold, size: 40),
             const SizedBox(height: 10),
             Text(
-              metres >= 50 ? 'You went out.' : 'You stepped out.',
+              metres >= 50 ? l.wentOut : l.steppedOut,
               style: const TextStyle(color: ink, fontSize: 24, fontWeight: FontWeight.w700),
             ),
             const SizedBox(height: 6),
             Text(
-              '${distanceText(metres)} · ${mins < 1 ? 'under a minute' : '$mins min'}${rainy ? ' · in the rain' : ''}',
+              [context.dist(metres), mins < 1 ? l.underMinute : l.minutes('$mins'), if (rainy) l.inTheRain].join(' · '),
               style: TextStyle(color: ink.withValues(alpha: 0.7), fontSize: 16),
             ),
             const SizedBox(height: 18),
             if (fresh.isNotEmpty) ...[
-              LightCard(light: fresh.last, progress: 0, label: fresh.length > 1 ? '${fresh.length} lights found' : 'Light found', maxLines: 6),
+              LightCard(light: fresh.last, progress: 0, label: fresh.length > 1 ? l.lightsFound : l.lightFound, maxLines: 6),
               const SizedBox(height: 18),
             ] else
               Padding(
                 padding: const EdgeInsets.only(bottom: 18),
-                child: Text('Every step counts, the small ones too.', style: TextStyle(color: ink.withValues(alpha: 0.7))),
+                child: Text(l.everyStepCounts, style: TextStyle(color: ink.withValues(alpha: 0.7))),
               ),
             SizedBox(
               width: double.infinity,
               child: FilledButton(
                 onPressed: () => Navigator.of(context).pop(),
                 style: FilledButton.styleFrom(backgroundColor: const Color(0xFFF4E6C4), foregroundColor: night),
-                child: const Text('Done'),
+                child: Text(l.done),
               ),
             ),
           ],

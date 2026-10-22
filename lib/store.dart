@@ -5,9 +5,11 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/widgets.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/light.dart';
+import 'l10n/app_localizations.dart';
 import 'reminder.dart';
 import 'steps.dart';
 
@@ -35,6 +37,21 @@ class Store extends ChangeNotifier {
   }
 
   bool welcomed = false;
+
+  /// The app's language: 'system' (the phone's), 'en' or 'ar'.
+  String language = 'system';
+
+  /// The language in use: Arabic if chosen (or the phone's language is Arabic), else English.
+  String get lang {
+    if (language != 'system') return language;
+    return SchedulerBinding.instance.platformDispatcher.locale.languageCode == 'ar' ? 'ar' : 'en';
+  }
+
+  void setLanguage(String l) {
+    language = l;
+    _save();
+    planReminder(); // the reminder speaks the new language too
+  }
 
   /// Today's light, in metres.
   int goal = 2000;
@@ -262,6 +279,15 @@ class Store extends ChangeNotifier {
     await planReminder();
   }
 
+  /// Why the next reminder comes when it does (the words are in the language files).
+  ReminderNext? reminderNext([DateTime? now]) {
+    final next = nextReminder(now);
+    if (next == null) return null;
+    final n = now ?? DateTime.now();
+    if (next.day == n.day) return ReminderNext.today;
+    return progress >= 1 ? ReminderNext.full : ReminderNext.passed;
+  }
+
   /// When the next reminder comes, or null when it is off.
   DateTime? nextReminder([DateTime? now]) {
     if (!remind) return null;
@@ -270,21 +296,16 @@ class Store extends ChangeNotifier {
     return today.isAfter(n) && progress < 1 ? today : today.add(const Duration(days: 1));
   }
 
-  /// In plain words: "Next: today around 17:00", and why not today when it isn't.
-  String reminderText([DateTime? now]) {
-    final next = nextReminder(now);
-    if (next == null) return '';
-    final n = now ?? DateTime.now();
-    final at = '${(remindAt ~/ 60).toString().padLeft(2, '0')}:${(remindAt % 60).toString().padLeft(2, '0')}';
-    if (next.day == n.day) return 'Next: today around $at.';
-    final why = progress >= 1 ? " Today's light is already full, so none today." : ' $at has passed today.';
-    return 'Next: tomorrow around $at.$why';
-  }
-
   /// Plans the daily reminder again (call on start): none on days the goal is already reached.
   Future<void> planReminder() async {
     try {
-      await reminder?.plan(remind ? remindAt : null, skipToday: progress >= 1);
+      final l = lookupL(Locale(lang));
+      await reminder?.plan(
+        remind ? remindAt : null,
+        skipToday: progress >= 1,
+        title: l.appTitle,
+        lines: [l.reminder0, l.reminder1, l.reminder2, l.reminder3, l.reminder4, l.reminder5, l.reminder6],
+      );
     } catch (e) {
       debugPrint('Could not plan the reminder: $e');
     }
@@ -305,6 +326,7 @@ class Store extends ChangeNotifier {
       _key,
       jsonEncode({
         'welcomed': welcomed,
+        'language': language,
         'goal': goal,
         'stride': strideCm,
         'remind': remind,
@@ -324,6 +346,7 @@ class Store extends ChangeNotifier {
     if (raw == null) return;
     final j = jsonDecode(raw) as Map<String, dynamic>;
     welcomed = j['welcomed'] as bool? ?? false;
+    language = const ['system', 'en', 'ar'].contains(j['language']) ? j['language'] as String : 'system';
     goal = (j['goal'] as int? ?? 2000).clamp(200, 30000);
     strideCm = (j['stride'] as int? ?? 75).clamp(40, 120);
     remind = j['remind'] as bool? ?? false;
@@ -346,4 +369,16 @@ class StoreScope extends InheritedNotifier<Store> {
   const StoreScope({super.key, required Store super.notifier, required super.child});
 
   static Store of(BuildContext context) => context.dependOnInheritedWidgetOfExactType<StoreScope>()!.notifier!;
+}
+
+/// Why the next reminder comes when it does.
+enum ReminderNext {
+  /// Later today.
+  today,
+
+  /// Tomorrow: today's time has passed.
+  passed,
+
+  /// Tomorrow: today's light is already full.
+  full,
 }

@@ -83,7 +83,7 @@ class _SkyState extends State<Sky> with SingleTickerProviderStateMixin {
     duration: const Duration(milliseconds: 2600),
     curve: Curves.easeInOutCubic,
     builder: (context, p, child) => CustomPaint(
-      painter: SkyPainter(progress: p, time: _time),
+      painter: SkyPainter(progress: p, time: _time, rtl: Directionality.of(context) == TextDirection.rtl),
       child: widget.builder?.call(context, p) ?? child,
     ),
     child: widget.child,
@@ -91,10 +91,13 @@ class _SkyState extends State<Sky> with SingleTickerProviderStateMixin {
 }
 
 class SkyPainter extends CustomPainter {
-  SkyPainter({required this.progress, required this.time}) : super(repaint: time);
+  SkyPainter({required this.progress, required this.time, this.rtl = false}) : super(repaint: time);
 
   final double progress;
   final Animation<double> time;
+
+  /// Right to left (Arabic): the title is on the right, so the crescent hangs on the left.
+  final bool rtl;
 
   static final _stars = () {
     final r = Random(11);
@@ -137,7 +140,7 @@ class SkyPainter extends CustomPainter {
     // The crescent, setting as dawn comes.
     final moonAlpha = (1 - p / 0.25).clamp(0.0, 1.0);
     if (moonAlpha > 0) {
-      final c = Offset(w * 0.8, h * (0.12 + p * 0.08));
+      final c = Offset(w * (rtl ? 0.2 : 0.8), h * (0.12 + p * 0.08));
       final r = w * 0.055;
       canvas.saveLayer(Rect.fromCircle(center: c, radius: r * 3), Paint());
       canvas.drawCircle(
@@ -260,5 +263,5 @@ class SkyPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(SkyPainter old) => old.progress != progress;
+  bool shouldRepaint(SkyPainter old) => old.progress != progress || old.rtl != rtl;
 }

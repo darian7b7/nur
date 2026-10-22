@@ -14,6 +14,7 @@ import 'settings.dart';
 import 'sky.dart';
 import 'theme.dart';
 import 'walk.dart';
+import 'words.dart';
 
 class Today extends StatefulWidget {
   const Today({super.key});
@@ -24,7 +25,7 @@ class Today extends StatefulWidget {
 
 class _TodayState extends State<Today> with WidgetsBindingObserver {
   Timer? _timer;
-  String? _newWay;
+  int? _newWay; // which New way rule, if one is on
 
   @override
   void initState() {
@@ -72,7 +73,7 @@ class _TodayState extends State<Today> with WidgetsBindingObserver {
         transitionDuration: const Duration(milliseconds: 700),
         pageBuilder: (_, a, _) => FadeTransition(
           opacity: a,
-          child: WalkScreen(newWay: _newWay, rainy: rainy),
+          child: WalkScreen(newWay: _newWay == null ? null : context.l.newWayRule(_newWay!), rainy: rainy),
         ),
       ),
     );
@@ -87,18 +88,19 @@ class _TodayState extends State<Today> with WidgetsBindingObserver {
     final found = foundToday(m, now);
     final next = nextToday(m, now);
     final hard = store.isHardDay;
+    final l = context.l;
 
     final Light card;
     final String cardLabel;
     if (hard && m < hardDayMetres) {
       card = hardDayFor(now);
-      cardLabel = 'For a hard day';
+      cardLabel = l.cardHardDay;
     } else if (found.isNotEmpty) {
       card = found.last;
-      cardLabel = 'Found today at ${distanceText(foundAt(found.last, now) ?? 0)}';
+      cardLabel = l.cardFoundAt(context.dist(foundAt(found.last, now) ?? 0));
     } else {
       card = dawn;
-      cardLabel = 'Before the first step';
+      cardLabel = l.cardBeforeFirstStep;
     }
 
     return Scaffold(
@@ -125,17 +127,17 @@ class _TodayState extends State<Today> with WidgetsBindingObserver {
                               Row(
                                 children: [
                                   Text(
-                                    'Nūr',
+                                    l.appTitle,
                                     style: TextStyle(color: ink, fontSize: 24, fontWeight: FontWeight.w300, letterSpacing: 1.5),
                                   ),
                                   const Spacer(),
                                   IconButton(
-                                    tooltip: 'The light you found',
+                                    tooltip: l.tooltipCollection,
                                     onPressed: () => openCollection(context),
                                     icon: Icon(Icons.auto_awesome_outlined, color: ink),
                                   ),
                                   IconButton(
-                                    tooltip: 'Settings',
+                                    tooltip: l.tooltipSettings,
                                     onPressed: () => showSettings(context),
                                     icon: Icon(Icons.tune_rounded, color: ink),
                                   ),
@@ -147,14 +149,14 @@ class _TodayState extends State<Today> with WidgetsBindingObserver {
                                 child: Column(
                                   children: [
                                     Text(
-                                      hard ? 'A HARD DAY · JUST STEP OUTSIDE' : (p >= 1 ? 'FULL LIGHT TODAY' : "TODAY'S LIGHT"),
+                                      hard ? l.hardDayHeading : (p >= 1 ? l.fullLightToday : l.todaysLight),
                                       textAlign: TextAlign.center,
                                       style: TextStyle(color: muted, fontSize: 12, letterSpacing: 2, fontWeight: FontWeight.w700),
                                     ),
                                     const SizedBox(height: 6),
                                     FittedBox(
                                       child: Text(
-                                        distanceText(m),
+                                        context.dist(m),
                                         style: TextStyle(
                                           color: ink,
                                           fontSize: 64,
@@ -164,7 +166,7 @@ class _TodayState extends State<Today> with WidgetsBindingObserver {
                                         ),
                                       ),
                                     ),
-                                    Text('of ${distanceText(store.todayGoal)}', style: TextStyle(color: muted, fontSize: 16)),
+                                    Text(l.ofGoal(context.dist(store.todayGoal)), style: TextStyle(color: muted, fontSize: 16)),
                                   ],
                                 ),
                               ),
@@ -180,8 +182,8 @@ class _TodayState extends State<Today> with WidgetsBindingObserver {
                               SizedBox(
                                 height: 20,
                                 child: next == null
-                                    ? Text('Every light of today found.', style: TextStyle(color: muted))
-                                    : Text('Next light in ${distanceText(next.$1)}', style: TextStyle(color: muted)),
+                                    ? Text(l.everyLightFound, style: TextStyle(color: muted))
+                                    : Text(l.nextLightIn(context.dist(next.$1)), style: TextStyle(color: muted)),
                               ),
                               const SizedBox(height: 14),
                               FadeIn(
@@ -191,16 +193,16 @@ class _TodayState extends State<Today> with WidgetsBindingObserver {
                                     if (_newWay != null) ...[
                                       Glass(
                                         progress: p,
-                                        padding: const EdgeInsets.fromLTRB(16, 12, 8, 12),
+                                        padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 8, 12),
                                         child: Row(
                                           children: [
                                             Icon(Icons.alt_route_rounded, color: ink, size: 20),
                                             const SizedBox(width: 10),
                                             Expanded(
-                                              child: Text(_newWay!, style: TextStyle(color: ink, height: 1.35)),
+                                              child: Text(l.newWayRule(_newWay!), style: TextStyle(color: ink, height: 1.35)),
                                             ),
                                             IconButton(
-                                              tooltip: 'Another way',
+                                              tooltip: l.tooltipAnotherWay,
                                               onPressed: () => setState(() => _newWay = _pickWay(_newWay)),
                                               icon: Icon(Icons.refresh_rounded, color: muted, size: 20),
                                             ),
@@ -218,7 +220,7 @@ class _TodayState extends State<Today> with WidgetsBindingObserver {
                                           foregroundColor: p < 0.6 ? night : const Color(0xFFF4E6C4),
                                         ),
                                         icon: const Icon(Icons.wb_twilight_rounded),
-                                        label: Text(p >= 1 ? 'Walk a little more' : 'Go out'),
+                                        label: Text(p >= 1 ? l.walkMore : l.goOut),
                                       ),
                                     ),
                                     const SizedBox(height: 12),
@@ -228,7 +230,7 @@ class _TodayState extends State<Today> with WidgetsBindingObserver {
                                           child: _Chip(
                                             progress: p,
                                             icon: hard ? Icons.favorite_rounded : Icons.favorite_border_rounded,
-                                            label: 'Hard day',
+                                            label: l.hardDay,
                                             on: hard,
                                             onTap: () {
                                               HapticFeedback.selectionClick();
@@ -241,14 +243,14 @@ class _TodayState extends State<Today> with WidgetsBindingObserver {
                                           child: _Chip(
                                             progress: p,
                                             icon: Icons.alt_route_rounded,
-                                            label: 'New way',
+                                            label: l.newWay,
                                             on: _newWay != null,
                                             onTap: () => setState(() => _newWay = _newWay == null ? _pickWay(null) : null),
                                           ),
                                         ),
                                         const SizedBox(width: 8),
                                         Expanded(
-                                          child: _Chip(progress: p, icon: Icons.umbrella_outlined, label: 'Weather', onTap: () => _weather(context)),
+                                          child: _Chip(progress: p, icon: Icons.umbrella_outlined, label: l.weather, onTap: () => _weather(context)),
                                         ),
                                       ],
                                     ),
@@ -270,10 +272,10 @@ class _TodayState extends State<Today> with WidgetsBindingObserver {
     );
   }
 
-  String _pickWay(String? not) {
+  int _pickWay(int? not) {
     final options = [
-      for (final w in newWays)
-        if (w != not) w,
+      for (var i = 0; i < newWayCount; i++)
+        if (i != not) i,
     ];
     return options[Random().nextInt(options.length)];
   }
@@ -346,14 +348,15 @@ class _WeatherSheetState extends State<_WeatherSheet> {
   @override
   Widget build(BuildContext context) {
     const ink = Color(0xFFF4F1EA);
+    final l = context.l;
     return SafeArea(
       child: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(24, 0, 24, 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'What is it like outside?',
+            Text(
+              l.weatherQuestion,
               style: TextStyle(color: ink, fontSize: 22, fontWeight: FontWeight.w700),
             ),
             const SizedBox(height: 14),
@@ -363,7 +366,7 @@ class _WeatherSheetState extends State<_WeatherSheet> {
               children: [
                 for (final w in Weather.values)
                   ChoiceChip(
-                    label: Text(w.label),
+                    label: Text(l.weatherLabel(w)),
                     selected: _w == w,
                     onSelected: (_) => setState(() => _w = w),
                     selectedColor: gold,
@@ -381,10 +384,10 @@ class _WeatherSheetState extends State<_WeatherSheet> {
                 key: ValueKey(_w),
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(_w.tip, style: TextStyle(color: ink.withValues(alpha: 0.85), fontSize: 16, height: 1.45)),
+                  Text(l.weatherTip(_w), style: TextStyle(color: ink.withValues(alpha: 0.85), fontSize: 16, height: 1.45)),
                   if (_w == Weather.rain) ...[
                     const SizedBox(height: 16),
-                    LightCard(light: rainFor(DateTime.now()), progress: 0, label: 'The rain is a mercy', maxLines: 8, onTap: () {}),
+                    LightCard(light: rainFor(DateTime.now()), progress: 0, label: l.rainIsMercy, maxLines: 8, onTap: () {}),
                   ],
                 ],
               ),
@@ -395,7 +398,7 @@ class _WeatherSheetState extends State<_WeatherSheet> {
               child: FilledButton(
                 onPressed: () => widget.onGo(_w),
                 style: FilledButton.styleFrom(backgroundColor: const Color(0xFFF4E6C4), foregroundColor: night),
-                child: Text(_w == Weather.rain ? 'Go out in the rain' : 'Go out anyway'),
+                child: Text(_w == Weather.rain ? l.goOutInRain : l.goOutAnyway),
               ),
             ),
           ],
@@ -409,7 +412,7 @@ class _WeatherSheetState extends State<_WeatherSheet> {
 void showFound(BuildContext context, List<Light> lights) {
   if (lights.isEmpty || !context.mounted) return;
   HapticFeedback.lightImpact();
-  showLight(context, lights.first, label: lights.length > 1 ? 'Light found · ${lights.length - 1} more in your collection' : 'Light found');
+  showLight(context, lights.first, label: lights.length > 1 ? context.l.lightFoundMore : context.l.lightFound);
 }
 
 /// Shown when the step counter isn't allowed: nothing would move, so say so and offer the switch.
@@ -424,7 +427,7 @@ class _StepsOff extends StatelessWidget {
     final ink = inkOn(progress);
     return Glass(
       progress: progress,
-      padding: const EdgeInsets.fromLTRB(16, 14, 12, 14),
+      padding: const EdgeInsetsDirectional.fromSTEB(16, 14, 12, 14),
       child: Row(
         children: [
           Icon(Icons.directions_walk_rounded, color: ink),
@@ -434,17 +437,17 @@ class _StepsOff extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Steps are off',
+                  context.l.stepsOff,
                   style: TextStyle(color: ink, fontWeight: FontWeight.w700),
                 ),
-                Text("Nūr can't see your walk until step counting is allowed.", style: TextStyle(color: mutedOn(progress), height: 1.3)),
+                Text(context.l.stepsOffBody, style: TextStyle(color: mutedOn(progress), height: 1.3)),
               ],
             ),
           ),
           TextButton(
             style: TextButton.styleFrom(foregroundColor: gold),
             onPressed: store.allowCounter,
-            child: const Text('Turn on'),
+            child: Text(context.l.turnOn),
           ),
         ],
       ),
