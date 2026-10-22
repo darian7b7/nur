@@ -5,6 +5,7 @@ import '../core/light.dart';
 import '../store.dart';
 import 'settings.dart' show goals;
 import 'sky.dart';
+import 'step_access.dart';
 import 'theme.dart';
 
 class Welcome extends StatefulWidget {
@@ -17,7 +18,14 @@ class Welcome extends StatefulWidget {
 class _WelcomeState extends State<Welcome> {
   final _pages = PageController();
   var _page = 0;
-  var _connecting = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) StoreScope.of(context).checkAccess();
+    });
+  }
 
   void _next() => _pages.nextPage(duration: const Duration(milliseconds: 700), curve: Curves.easeInOutCubic);
 
@@ -155,43 +163,25 @@ class _WelcomeState extends State<Welcome> {
                               'Your steps, from your phone',
                               style: TextStyle(color: ink, fontWeight: FontWeight.w700, fontSize: 16),
                             ),
-                            const SizedBox(height: 6),
+                            const SizedBox(height: 4),
                             Text(
-                              'Nūr reads only the step count your phone already keeps (Health Connect). No location, no battery drain, nothing leaves the phone.',
-                              style: TextStyle(color: ink, height: 1.45),
+                              'Only the step count. No location, no battery drain, nothing leaves the phone.',
+                              style: TextStyle(color: ink, height: 1.4),
                             ),
-                            const SizedBox(height: 10),
-                            if (store.connected)
-                              Row(
-                                children: [
-                                  const Icon(Icons.check_circle_rounded, color: Color(0xFF2E7D4F), size: 20),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    'Connected',
-                                    style: TextStyle(color: ink, fontWeight: FontWeight.w700),
-                                  ),
-                                ],
-                              )
-                            else
-                              OutlinedButton(
-                                onPressed: _connecting
-                                    ? null
-                                    : () async {
-                                        setState(() => _connecting = true);
-                                        await store.connectSteps();
-                                        if (mounted) setState(() => _connecting = false);
-                                      },
-                                style: OutlinedButton.styleFrom(
-                                  foregroundColor: ink,
-                                  side: BorderSide(color: ink.withValues(alpha: 0.5)),
-                                ),
-                                child: Text(_connecting ? 'Connecting…' : 'Connect my steps'),
-                              ),
+                            const SizedBox(height: 6),
+                            StepAccess(ink: ink, muted: ink.withValues(alpha: 0.75), accent: night),
                           ],
                         ),
                       ),
                     ],
-                    button: FilledButton(onPressed: store.welcome, style: buttonStyle, child: const Text('Start')),
+                    button: FilledButton(
+                      // Nūr can't work without the step counter: Start asks for it first.
+                      onPressed: () async {
+                        if (store.counterOk == true || await store.allowCounter()) store.welcome();
+                      },
+                      style: buttonStyle,
+                      child: Text(store.counterOk == true ? 'Start' : 'Allow step counting'),
+                    ),
                   ),
                 ],
               ),

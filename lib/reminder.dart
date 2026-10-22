@@ -6,14 +6,17 @@ abstract class Reminder {
 
   /// Plans the reminder at [at] (minutes of the day) for the next days; null: none.
   Future<void> plan(int? at, {required bool skipToday});
+
+  /// Shows one right away, so you see what it looks like.
+  Future<void> showNow();
 }
 
 /// What the reminder says, taking turns by day so it never feels like the same nag.
 const reminderLines = [
   'The light is outside. A short walk?',
   'Even ten minutes outside brightens the day.',
-  'Walk among its paths (67:15). The door is right there.',
-  'With hardship comes ease (94:5). Step out for a moment.',
+  'So walk among its slopes (67:15). The door is right there.',
+  'With hardship will be ease (94:5). Step out for a moment.',
   'A few steps today. Small and regular is beloved.',
   'Whatever the weather, a little light is waiting.',
   'Your body has a right over you. Two minutes outside?',
@@ -30,6 +33,15 @@ class LocalReminder implements Reminder {
 
   @override
   Future<bool> requestPermission() => _notifier.requestPermission(web: false);
+
+  @override
+  Future<void> showNow() async {
+    if (!_ready) return;
+    await _notifier.showNow(
+      Notice(title: 'Nūr', body: reminderLines[DateTime.now().day % reminderLines.length], payload: 'walk'),
+      channelName: 'Daily walk',
+    );
+  }
 
   @override
   Future<void> plan(int? at, {required bool skipToday}) async {

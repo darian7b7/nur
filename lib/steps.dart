@@ -16,17 +16,24 @@ enum StepSource {
 }
 
 abstract class Steps {
-  /// Today's steps so far, or null when they can't be read.
+  /// Today's steps so far from Health Connect, or null when they can't be read.
   Future<int?> today();
 
-  /// Asks for the permissions; true if today's steps can now be read.
+  /// Whether the phone's step counter may be used (Android: "Physical activity"). Without it Nūr can't
+  /// count at all.
+  Future<bool> counterAllowed();
+
+  /// Asks for the step counter; true if allowed. Refused for good: opens Nūr's settings instead.
+  Future<bool> allowCounter();
+
+  /// Asks for Health Connect steps (counts while Nūr is closed too); true if allowed.
   Future<bool> connect();
 
-  /// Whether today's steps can be read (without asking).
+  /// Whether Health Connect steps can be read (without asking).
   Future<bool> connected();
 
   /// The phone's step counter as it counts: steps since the phone started (it keeps counting while
-  /// Nūr is closed). Errors if there is no step sensor.
+  /// Nūr is closed). Errors if there is no step sensor or no permission.
   Stream<int> live();
 }
 
@@ -57,9 +64,29 @@ class PhoneSteps implements Steps {
   Future<bool> connected() async {
     try {
       await _configure();
-      if (!await Permission.activityRecognition.isGranted) return false;
       return await _health.hasPermissions([HealthDataType.STEPS]) ?? false;
     } catch (_) {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> counterAllowed() async {
+    try {
+      return await Permission.activityRecognition.isGranted;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> allowCounter() async {
+    try {
+      final s = await Permission.activityRecognition.request();
+      if (s.isPermanentlyDenied) await openAppSettings(); // Android won't ask again: the switch is there
+      return s.isGranted;
+    } catch (e) {
+      debugPrint('Could not ask for the step counter: $e');
       return false;
     }
   }
@@ -68,7 +95,6 @@ class PhoneSteps implements Steps {
   Future<bool> connect() async {
     try {
       await _configure();
-      await Permission.activityRecognition.request();
       if (await _health.getHealthConnectSdkStatus() != HealthConnectSdkStatus.sdkAvailable) return false;
       await _health.requestAuthorization([HealthDataType.STEPS]);
       return await connected();

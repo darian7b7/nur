@@ -41,7 +41,12 @@ void main() {
     SharedPreferences.setMockInitialValues({});
     final store = await Store.load(steps: steps);
     store.setTodaySteps(0);
-    await tester.pumpWidget(RepaintBoundary(key: const Key('shot'), child: NurApp(store: store)));
+    await tester.pumpWidget(
+      RepaintBoundary(
+        key: const Key('shot'),
+        child: NurApp(store: store),
+      ),
+    );
     await settle(tester, 15);
     await shot(tester, '1-welcome');
     store.welcome();

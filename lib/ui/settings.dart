@@ -1,9 +1,11 @@
 // Settings: your daily light, your stride, where steps come from, the one optional reminder.
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../core/light.dart';
 import '../store.dart';
+import 'step_access.dart';
 import 'theme.dart';
 
 void showSettings(BuildContext context) =>
@@ -91,31 +93,12 @@ class _Settings extends StatelessWidget {
             Material(
               color: Colors.white.withValues(alpha: 0.06),
               borderRadius: BorderRadius.circular(18),
-              child: ListTile(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-                leading: Icon(store.connected ? Icons.check_circle_rounded : Icons.directions_walk_rounded, color: store.connected ? gold : ink),
-                title: Text(
-                  store.connected ? 'From your phone' : 'Only walks in Nūr',
-                  style: const TextStyle(color: ink, fontWeight: FontWeight.w600),
-                ),
-                subtitle: Text(
-                  store.connected
-                      ? 'Read from Health Connect: every step today counts, also without Nūr open.'
-                      : 'Connect Health Connect so every step of the day counts.',
-                  style: TextStyle(color: muted, height: 1.35),
-                ),
-                trailing: store.connected
-                    ? null
-                    : TextButton(
-                        style: TextButton.styleFrom(foregroundColor: gold),
-                        onPressed: () async {
-                          await store.connectSteps();
-                        },
-                        child: const Text('Connect'),
-                      ),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                child: StepAccess(ink: ink, muted: muted),
               ),
             ),
-            heading('A gentle reminder'),
+            heading('Daily walk reminder'),
             Material(
               color: Colors.white.withValues(alpha: 0.06),
               borderRadius: BorderRadius.circular(18),
@@ -127,14 +110,33 @@ class _Settings extends StatelessWidget {
                     activeThumbColor: gold,
                     onChanged: (v) => store.setReminder(on: v),
                     title: const Text(
-                      'Once a day, silent',
+                      'Remind me to walk',
                       style: TextStyle(color: ink, fontWeight: FontWeight.w600),
                     ),
-                    subtitle: Text('Not on days you already reached your light.', style: TextStyle(color: muted)),
+                    subtitle: Text(
+                      "One quiet notification a day (no sound), only on days you haven't reached your light yet.",
+                      style: TextStyle(color: muted, height: 1.35),
+                    ),
                   ),
-                  if (store.remind)
+                  if (store.reminderRefused)
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text('Notifications are off for Nūr in your phone\'s settings.', style: TextStyle(color: muted)),
+                          ),
+                          TextButton(
+                            style: TextButton.styleFrom(foregroundColor: gold),
+                            onPressed: openAppSettings,
+                            child: const Text('Open settings'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  if (store.remind) ...[
                     ListTile(
-                      title: const Text('At', style: TextStyle(color: ink)),
+                      title: const Text('Time', style: TextStyle(color: ink)),
                       trailing: Text(
                         _hhmm(store.remindAt),
                         style: const TextStyle(color: gold, fontSize: 18, fontWeight: FontWeight.w700),
@@ -147,6 +149,26 @@ class _Settings extends StatelessWidget {
                         if (t != null) await store.setReminder(at: t.hour * 60 + t.minute);
                       },
                     ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 4),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(store.reminderText(), style: TextStyle(color: muted, height: 1.35)),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 6),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: TextButton.icon(
+                          style: TextButton.styleFrom(foregroundColor: gold),
+                          onPressed: () => store.reminder?.showNow(),
+                          icon: const Icon(Icons.notifications_outlined, size: 18),
+                          label: const Text('Send one now, to see it'),
+                        ),
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),

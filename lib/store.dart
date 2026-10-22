@@ -40,8 +40,14 @@ class Store extends ChangeNotifier {
   int goal = 2000;
   int strideCm = 75;
 
-  /// Health Connect is connected (today's steps are read from the phone).
+  /// Health Connect is connected (today's steps are read from the phone, also while Nūr is closed).
   bool connected = false;
+
+  /// The phone's step counter may be used. Null until checked. Without it Nūr can't count at all.
+  bool? counterOk;
+
+  /// Notifications were refused when the reminder was turned on.
+  bool reminderRefused = false;
 
   /// One quiet reminder a day at [remindAt] (minutes of the day), off unless chosen.
   bool remind = false;
@@ -101,25 +107,45 @@ class Store extends ChangeNotifier {
 
   StreamSubscription<int>? _live;
 
+  /// Checks what Nūr may use (the user can change it in the phone's settings at any time).
+  Future<void> checkAccess() async {
+    final ok = await steps.counterAllowed();
+    final wasOk = counterOk;
+    counterOk = ok;
+    connected = await steps.connected();
+    if (ok && wasOk != true) {
+      // Just allowed (here or in the phone's settings): start counting.
+      liveWorks = true;
+      stopLive();
+      startLive();
+    }
+    notifyListeners();
+  }
+
+  /// Asks for the step counter. True if Nūr can count now.
+  Future<bool> allowCounter() async {
+    await steps.allowCounter();
+    await checkAccess();
+    return counterOk == true;
+  }
+
   /// Reads today's steps from the phone and finds any new light. Returns the lights newly found.
   Future<List<Light>> refresh() async {
-    connected = await steps.connected();
+    await checkAccess();
     final s = connected ? await steps.today() : null;
     return _setSteps(max(s ?? 0, walkSteps[_today] ?? 0));
   }
 
-  /// Asks for the step permissions, then counts live and reads today again.
+  /// Asks for Health Connect steps (and the step counter first, if needed), then reads today again.
   Future<void> connectSteps() async {
+    if (counterOk != true) await allowCounter();
     await steps.connect();
-    liveWorks = true;
-    stopLive();
-    startLive();
     await refresh();
   }
 
   /// Follows the step counter while Nūr is open: each step shows at once.
   void startLive() {
-    if (_live != null || !liveWorks) return;
+    if (_live != null || !liveWorks || counterOk == false) return;
     _live = steps.live().listen(
       _onRaw,
       onError: (Object e) {
@@ -227,9 +253,32 @@ class Store extends ChangeNotifier {
   Future<void> setReminder({bool? on, int? at}) async {
     remind = on ?? remind;
     remindAt = at ?? remindAt;
-    if (remind && reminder != null && !await reminder!.requestPermission()) remind = false;
+    reminderRefused = false;
+    if (remind && reminder != null && !await reminder!.requestPermission()) {
+      remind = false;
+      reminderRefused = true;
+    }
     _save();
     await planReminder();
+  }
+
+  /// When the next reminder comes, or null when it is off.
+  DateTime? nextReminder([DateTime? now]) {
+    if (!remind) return null;
+    final n = now ?? DateTime.now();
+    final today = DateTime(n.year, n.month, n.day, remindAt ~/ 60, remindAt % 60);
+    return today.isAfter(n) && progress < 1 ? today : today.add(const Duration(days: 1));
+  }
+
+  /// In plain words: "Next: today around 17:00", and why not today when it isn't.
+  String reminderText([DateTime? now]) {
+    final next = nextReminder(now);
+    if (next == null) return '';
+    final n = now ?? DateTime.now();
+    final at = '${(remindAt ~/ 60).toString().padLeft(2, '0')}:${(remindAt % 60).toString().padLeft(2, '0')}';
+    if (next.day == n.day) return 'Next: today around $at.';
+    final why = progress >= 1 ? " Today's light is already full, so none today." : ' $at has passed today.';
+    return 'Next: tomorrow around $at.$why';
   }
 
   /// Plans the daily reminder again (call on start): none on days the goal is already reached.

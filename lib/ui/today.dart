@@ -61,7 +61,11 @@ class _TodayState extends State<Today> with WidgetsBindingObserver {
     if (mounted && fresh.isNotEmpty) showFound(context, fresh);
   }
 
-  void _go({bool rainy = false}) {
+  Future<void> _go({bool rainy = false}) async {
+    final store = StoreScope.of(context);
+    // A walk needs the step counter: ask first, never start a walk that can't count.
+    if (store.counterOk != true && !await store.allowCounter()) return;
+    if (!mounted) return;
     HapticFeedback.mediumImpact();
     Navigator.of(context).push(
       PageRouteBuilder(
@@ -137,6 +141,7 @@ class _TodayState extends State<Today> with WidgetsBindingObserver {
                                 ),
                               ],
                             ),
+                            if (store.counterOk == false) ...[const SizedBox(height: 8), _StepsOff(progress: p)],
                             SizedBox(height: max(24, box.maxHeight * 0.06)),
                             FadeIn(
                               child: Column(
@@ -403,4 +408,44 @@ void showFound(BuildContext context, List<Light> lights) {
   if (lights.isEmpty || !context.mounted) return;
   HapticFeedback.lightImpact();
   showLight(context, lights.first, label: lights.length > 1 ? 'Light found · ${lights.length - 1} more in your collection' : 'Light found');
+}
+
+/// Shown when the step counter isn't allowed: nothing would move, so say so and offer the switch.
+class _StepsOff extends StatelessWidget {
+  const _StepsOff({required this.progress});
+
+  final double progress;
+
+  @override
+  Widget build(BuildContext context) {
+    final store = StoreScope.of(context);
+    final ink = inkOn(progress);
+    return Glass(
+      progress: progress,
+      padding: const EdgeInsets.fromLTRB(16, 14, 12, 14),
+      child: Row(
+        children: [
+          Icon(Icons.directions_walk_rounded, color: ink),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Steps are off',
+                  style: TextStyle(color: ink, fontWeight: FontWeight.w700),
+                ),
+                Text("Nūr can't see your walk until step counting is allowed.", style: TextStyle(color: mutedOn(progress), height: 1.3)),
+              ],
+            ),
+          ),
+          TextButton(
+            style: TextButton.styleFrom(foregroundColor: gold),
+            onPressed: store.allowCounter,
+            child: const Text('Turn on'),
+          ),
+        ],
+      ),
+    );
+  }
 }

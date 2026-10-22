@@ -17,12 +17,24 @@ class FakeSteps implements Steps {
   bool isConnected = false;
   var live_ = StreamController<int>.broadcast();
   bool sensorFails = false;
+  bool counter = true; // "Physical activity" allowed
+  bool counterAsked = false;
+  bool allowWhenAsked = true;
 
   @override
   Future<int?> today() async => isConnected ? todaySteps : null;
 
   @override
   Future<bool> connect() async => isConnected = true;
+
+  @override
+  Future<bool> counterAllowed() async => counter;
+
+  @override
+  Future<bool> allowCounter() async {
+    counterAsked = true;
+    return counter = allowWhenAsked;
+  }
 
   @override
   Future<bool> connected() async => isConnected;
@@ -41,6 +53,11 @@ class FakeReminder implements Reminder {
 
   @override
   Future<bool> requestPermission() async => true;
+
+  int shown = 0;
+
+  @override
+  Future<void> showNow() async => shown++;
 
   @override
   Future<void> plan(int? at, {required bool skipToday}) async {
@@ -239,6 +256,26 @@ void main() {
       expect(s.found.containsKey('q29_20'), isTrue, reason: '5 km in all');
     });
 
+    test('the reminder says when it comes next, and why not today', () async {
+      final s = await store(reminder: FakeReminder());
+      await s.setReminder(on: true, at: 17 * 60);
+      final morning = DateTime.now().copyWith(hour: 9, minute: 0);
+      final evening = DateTime.now().copyWith(hour: 20, minute: 0);
+      expect(s.reminderText(morning), 'Next: today around 17:00.');
+      expect(s.reminderText(evening), 'Next: tomorrow around 17:00. 17:00 has passed today.');
+      s.setTodaySteps(5000);
+      expect(s.reminderText(morning), "Next: tomorrow around 17:00. Today's light is already full, so none today.");
+      await s.setReminder(on: false);
+      expect(s.reminderText(morning), '');
+    });
+
+    test('refused notifications: the reminder stays off and says why', () async {
+      final s = await store(reminder: _RefusingReminder());
+      await s.setReminder(on: true);
+      expect(s.remind, isFalse);
+      expect(s.reminderRefused, isTrue);
+    });
+
     test('rain is found by going out in it; reminders skip a day already in full light', () async {
       final r = FakeReminder();
       final s = await store(reminder: r);
@@ -328,15 +365,48 @@ void main() {
       await tester.tap(find.text('Next'));
       await settle(tester);
       await tester.tap(find.text('3 km'));
-      await tester.tap(find.text('Connect my steps'));
+      await tester.tap(find.text('Connect Health Connect'));
       await settle(tester);
-      expect(find.text('Connected'), findsOneWidget);
+      expect(find.textContaining('Connected. Steps count also while'), findsOneWidget);
       await tester.tap(find.text('Start'));
       await settle(tester);
       expect(s.welcomed, isTrue);
       expect(s.goal, 3000);
       expect(find.text('Go out'), findsOneWidget);
       expect(steps.isConnected, isTrue);
+    });
+
+    testWidgets('step counting refused: Start asks for it, Today says so plainly, Go out asks again', (tester) async {
+      final steps = FakeSteps()
+        ..counter = false
+        ..allowWhenAsked = false;
+      final (s, _) = await pump(tester, welcomed: false, steps: steps);
+      await tester.tap(find.text('Begin'));
+      await settle(tester);
+      await tester.tap(find.text('Next'));
+      await settle(tester);
+      expect(find.text('Allow step counting'), findsWidgets, reason: 'no Start without the step counter');
+      await tester.runAsync(() => Scrollable.ensureVisible(tester.element(find.widgetWithText(FilledButton, 'Allow step counting'))));
+      await settle(tester, 2);
+      await tester.tap(find.widgetWithText(FilledButton, 'Allow step counting'));
+      await settle(tester);
+      expect(steps.counterAsked, isTrue);
+      expect(s.welcomed, isFalse, reason: 'refused: still on the welcome');
+      s.welcome(); // e.g. from an earlier version
+      await settle(tester);
+      expect(find.text('Steps are off'), findsOneWidget);
+      steps.counterAsked = false;
+      await tester.runAsync(() => Scrollable.ensureVisible(tester.element(find.text('Go out')), alignment: 0.5));
+      await settle(tester, 2);
+      await tester.tap(find.text('Go out'));
+      await settle(tester);
+      expect(steps.counterAsked, isTrue);
+      expect(find.text('WALKING INTO THE LIGHT'), findsNothing, reason: 'no walk that cannot count');
+      // Allowed later (for example in the phone's settings): the banner goes, counting starts.
+      steps.counter = true;
+      await s.refresh();
+      await settle(tester);
+      expect(find.text('Steps are off'), findsNothing);
     });
 
     testWidgets('Today at dawn: the first verse, the next light, Go out', (tester) async {
@@ -427,7 +497,11 @@ void main() {
       await settle(tester);
       expect(find.byType(Collection), findsOneWidget);
       expect(find.text('3 of ${allLights.length} found'), findsOneWidget);
-      await tester.scrollUntilVisible(find.textContaining('more waiting on your walks'), 300, scrollable: find.descendant(of: find.byType(Collection), matching: find.byType(Scrollable)).first);
+      await tester.scrollUntilVisible(
+        find.textContaining('more waiting on your walks'),
+        300,
+        scrollable: find.descendant(of: find.byType(Collection), matching: find.byType(Scrollable)).first,
+      );
       expect(find.textContaining('${pool.length - 3} more waiting on your walks'), findsOneWidget);
       await tester.drag(find.byType(ListView).last, const Offset(0, -900));
       await settle(tester, 3);
@@ -442,9 +516,11 @@ void main() {
       await tester.tap(find.text('5 km'));
       await tester.pump();
       expect(s.goal, 5000);
-      await tester.tap(find.text('Connect'));
+      await tester.tap(find.text('Connect Health Connect'));
       await settle(tester);
       expect(steps.isConnected, isTrue);
+      expect(find.textContaining('Connected. Steps count also while'), findsOneWidget);
+      expect(find.text('Remind me to walk'), findsOneWidget);
     });
 
     for (final (size, text) in const [(Size(360, 640), 1.0), (Size(360, 640), 2.0), (Size(320, 568), 1.5), (Size(412, 915), 1.3)]) {
@@ -492,4 +568,9 @@ void main() {
       });
     }
   });
+}
+
+class _RefusingReminder extends FakeReminder {
+  @override
+  Future<bool> requestPermission() async => false;
 }
