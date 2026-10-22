@@ -68,6 +68,7 @@ Future<bool> openSource(Light l) async {
 /// The whole verse or hadith, calm and large.
 void showLight(BuildContext context, Light l, {String? label}) {
   showModalBottomSheet<void>(
+    useSafeArea: true, // the handle stays below the status bar, so it can be pulled
     context: context,
     isScrollControlled: true,
     backgroundColor: night,

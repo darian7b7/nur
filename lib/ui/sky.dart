@@ -46,10 +46,14 @@ Color mutedOn(double p) => inkOn(p).withValues(alpha: 0.72);
 
 /// The sky for today's [progress] (0 at dawn, 1 at the goal). Changes of progress glide slowly.
 class Sky extends StatefulWidget {
-  const Sky({super.key, required this.progress, this.child});
+  const Sky({super.key, required this.progress, this.child, this.builder});
 
   final double progress;
   final Widget? child;
+
+  /// Builds what is on the sky with the sky's own gliding progress, so text and glass change colour
+  /// together with the sky, frame by frame (never dark text on a sky that is still dark).
+  final Widget Function(BuildContext context, double progress)? builder;
 
   @override
   State<Sky> createState() => _SkyState();
@@ -80,7 +84,7 @@ class _SkyState extends State<Sky> with SingleTickerProviderStateMixin {
     curve: Curves.easeInOutCubic,
     builder: (context, p, child) => CustomPaint(
       painter: SkyPainter(progress: p, time: _time),
-      child: child,
+      child: widget.builder?.call(context, p) ?? child,
     ),
     child: widget.child,
   );

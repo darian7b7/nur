@@ -8,8 +8,13 @@ import '../store.dart';
 import 'step_access.dart';
 import 'theme.dart';
 
-void showSettings(BuildContext context) =>
-    showModalBottomSheet<void>(context: context, isScrollControlled: true, backgroundColor: night, builder: (_) => const _Settings());
+void showSettings(BuildContext context) => showModalBottomSheet<void>(
+  context: context,
+  useSafeArea: true, // the handle stays below the status bar, so it can be pulled
+  isScrollControlled: true,
+  backgroundColor: night,
+  builder: (_) => const _Settings(),
+);
 
 const goals = [1000, 2000, 3000, 5000, 8000];
 
@@ -154,18 +159,6 @@ class _Settings extends StatelessWidget {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(store.reminderText(), style: TextStyle(color: muted, height: 1.35)),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 6),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: TextButton.icon(
-                          style: TextButton.styleFrom(foregroundColor: gold),
-                          onPressed: () => store.reminder?.showNow(),
-                          icon: const Icon(Icons.notifications_outlined, size: 18),
-                          label: const Text('Send one now, to see it'),
-                        ),
                       ),
                     ),
                   ],

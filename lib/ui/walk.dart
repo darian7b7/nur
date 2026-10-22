@@ -86,6 +86,7 @@ class _WalkScreenState extends State<WalkScreen> with SingleTickerProviderStateM
     if (!mounted) return;
     HapticFeedback.lightImpact();
     await showModalBottomSheet<void>(
+      useSafeArea: true, // the handle stays below the status bar, so it can be pulled
       context: context,
       backgroundColor: night,
       isScrollControlled: true,
@@ -97,12 +98,10 @@ class _WalkScreenState extends State<WalkScreen> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     StoreScope.of(context); // follow the steps
-    final p = _store.progress;
     final noSensor = !_store.liveWorks;
-    final ink = inkOn(p);
-    final muted = mutedOn(p);
     final mins = _elapsed.inMinutes, secs = _elapsed.inSeconds % 60;
     final next = nextToday(_store.todayMetres, DateTime.now());
+    final target = _store.progress;
 
     return PopScope(
       canPop: false,
@@ -112,110 +111,113 @@ class _WalkScreenState extends State<WalkScreen> with SingleTickerProviderStateM
       child: Scaffold(
         backgroundColor: night,
         body: Sky(
-          progress: p,
-          child: SafeArea(
-            child: Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 520),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: LayoutBuilder(
-                          builder: (context, box) => SingleChildScrollView(
-                            child: ConstrainedBox(
-                              constraints: BoxConstraints(minHeight: box.maxHeight),
-                              child: IntrinsicHeight(
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      widget.rainy ? 'WALKING IN THE RAIN' : 'WALKING INTO THE LIGHT',
-                                      style: TextStyle(color: muted, fontSize: 12, letterSpacing: 2, fontWeight: FontWeight.w700),
-                                    ),
-                                    const SizedBox(height: 18),
-                                    FittedBox(
-                                      child: Text(
-                                        preciseDistance(_walkMetres), // every metre while you walk
-                                        style: TextStyle(
-                                          color: ink,
-                                          fontSize: 64,
-                                          fontWeight: FontWeight.w200,
-                                          fontFeatures: const [FontFeature.tabularFigures()],
+          progress: target,
+          builder: (context, p) {
+            final ink = inkOn(p), muted = mutedOn(p);
+            return SafeArea(
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 520),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: LayoutBuilder(
+                            builder: (context, box) => SingleChildScrollView(
+                              child: ConstrainedBox(
+                                constraints: BoxConstraints(minHeight: box.maxHeight),
+                                child: IntrinsicHeight(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        widget.rainy ? 'WALKING IN THE RAIN' : 'WALKING INTO THE LIGHT',
+                                        style: TextStyle(color: muted, fontSize: 12, letterSpacing: 2, fontWeight: FontWeight.w700),
+                                      ),
+                                      const SizedBox(height: 18),
+                                      FittedBox(
+                                        child: Text(
+                                          preciseDistance(_walkMetres), // every metre while you walk
+                                          style: TextStyle(
+                                            color: ink,
+                                            fontSize: 64,
+                                            fontWeight: FontWeight.w200,
+                                            fontFeatures: const [FontFeature.tabularFigures()],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Text(
-                                      noSensor
-                                          ? '$mins:${secs.toString().padLeft(2, '0')} · steps are counted by your phone'
-                                          : '$_steps steps · $mins:${secs.toString().padLeft(2, '0')}',
-                                      style: TextStyle(color: muted, fontSize: 16, fontFeatures: const [FontFeature.tabularFigures()]),
-                                    ),
-                                    if (widget.newWay != null) ...[
-                                      const SizedBox(height: 18),
-                                      Glass(
-                                        progress: p,
-                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                        child: Row(
-                                          children: [
-                                            Icon(Icons.alt_route_rounded, color: ink, size: 20),
-                                            const SizedBox(width: 10),
-                                            Expanded(
-                                              child: Text(widget.newWay!, style: TextStyle(color: ink, height: 1.35)),
-                                            ),
-                                          ],
+                                      Text(
+                                        noSensor
+                                            ? '$mins:${secs.toString().padLeft(2, '0')} · steps are counted by your phone'
+                                            : '$_steps steps · $mins:${secs.toString().padLeft(2, '0')}',
+                                        style: TextStyle(color: muted, fontSize: 16, fontFeatures: const [FontFeature.tabularFigures()]),
+                                      ),
+                                      if (widget.newWay != null) ...[
+                                        const SizedBox(height: 18),
+                                        Glass(
+                                          progress: p,
+                                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.alt_route_rounded, color: ink, size: 20),
+                                              const SizedBox(width: 10),
+                                              Expanded(
+                                                child: Text(widget.newWay!, style: TextStyle(color: ink, height: 1.35)),
+                                              ),
+                                            ],
+                                          ),
                                         ),
+                                      ],
+                                      const Spacer(),
+                                      AnimatedSwitcher(
+                                        duration: const Duration(milliseconds: 900),
+                                        switchInCurve: Curves.easeOutCubic,
+                                        transitionBuilder: (c, a) => FadeTransition(
+                                          opacity: a,
+                                          child: SlideTransition(
+                                            position: Tween(begin: const Offset(0, 0.08), end: Offset.zero).animate(a),
+                                            child: c,
+                                          ),
+                                        ),
+                                        child: _justFound == null
+                                            ? SizedBox(
+                                                key: const ValueKey('next'),
+                                                height: 24,
+                                                child: Text(
+                                                  next == null ? 'Every light of today found' : 'Next light in ${distanceText(next.$1)}',
+                                                  style: TextStyle(color: muted),
+                                                ),
+                                              )
+                                            : LightCard(key: ValueKey(_justFound!.id), light: _justFound!, progress: p, label: 'Light found'),
                                       ),
                                     ],
-                                    const Spacer(),
-                                    AnimatedSwitcher(
-                                      duration: const Duration(milliseconds: 900),
-                                      switchInCurve: Curves.easeOutCubic,
-                                      transitionBuilder: (c, a) => FadeTransition(
-                                        opacity: a,
-                                        child: SlideTransition(
-                                          position: Tween(begin: const Offset(0, 0.08), end: Offset.zero).animate(a),
-                                          child: c,
-                                        ),
-                                      ),
-                                      child: _justFound == null
-                                          ? SizedBox(
-                                              key: const ValueKey('next'),
-                                              height: 24,
-                                              child: Text(
-                                                next == null ? 'Every light of today found' : 'Next light in ${distanceText(next.$1)}',
-                                                style: TextStyle(color: muted),
-                                              ),
-                                            )
-                                          : LightCard(key: ValueKey(_justFound!.id), light: _justFound!, progress: p, label: 'Light found'),
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 18),
-                      Text('The phone can go in your pocket.', style: TextStyle(color: muted, fontSize: 13)),
-                      const SizedBox(height: 12),
-                      SizedBox(
-                        width: double.infinity,
-                        child: FilledButton(
-                          onPressed: _finish,
-                          style: FilledButton.styleFrom(
-                            backgroundColor: p < 0.6 ? const Color(0xFFF4E6C4) : night,
-                            foregroundColor: p < 0.6 ? night : const Color(0xFFF4E6C4),
+                        const SizedBox(height: 18),
+                        Text('The phone can go in your pocket.', style: TextStyle(color: muted, fontSize: 13)),
+                        const SizedBox(height: 12),
+                        SizedBox(
+                          width: double.infinity,
+                          child: FilledButton(
+                            onPressed: _finish,
+                            style: FilledButton.styleFrom(
+                              backgroundColor: p < 0.6 ? const Color(0xFFF4E6C4) : night,
+                              foregroundColor: p < 0.6 ? night : const Color(0xFFF4E6C4),
+                            ),
+                            child: const Text('Finish walk'),
                           ),
-                          child: const Text('Finish walk'),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
+            );
+          },
         ),
       ),
     );

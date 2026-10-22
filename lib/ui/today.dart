@@ -81,9 +81,7 @@ class _TodayState extends State<Today> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     final store = StoreScope.of(context);
-    final p = store.progress;
-    final ink = inkOn(p);
-    final muted = mutedOn(p);
+    final target = store.progress;
     final m = store.todayMetres;
     final now = DateTime.now();
     final found = foundToday(m, now);
@@ -106,156 +104,159 @@ class _TodayState extends State<Today> with WidgetsBindingObserver {
     return Scaffold(
       backgroundColor: night,
       body: Sky(
-        progress: p,
-        child: SafeArea(
-          child: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 520),
-              child: RefreshIndicator(
-                onRefresh: _refresh,
-                child: LayoutBuilder(
-                  builder: (context, box) => SingleChildScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(minHeight: box.maxHeight),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 6, 20, 20),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  'Nūr',
-                                  style: TextStyle(color: ink, fontSize: 24, fontWeight: FontWeight.w300, letterSpacing: 1.5),
-                                ),
-                                const Spacer(),
-                                IconButton(
-                                  tooltip: 'The light you found',
-                                  onPressed: () => openCollection(context),
-                                  icon: Icon(Icons.auto_awesome_outlined, color: ink),
-                                ),
-                                IconButton(
-                                  tooltip: 'Settings',
-                                  onPressed: () => showSettings(context),
-                                  icon: Icon(Icons.tune_rounded, color: ink),
-                                ),
-                              ],
-                            ),
-                            if (store.counterOk == false) ...[const SizedBox(height: 8), _StepsOff(progress: p)],
-                            SizedBox(height: max(24, box.maxHeight * 0.06)),
-                            FadeIn(
-                              child: Column(
+        progress: target,
+        builder: (context, p) {
+          final ink = inkOn(p), muted = mutedOn(p);
+          return SafeArea(
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 520),
+                child: RefreshIndicator(
+                  onRefresh: _refresh,
+                  child: LayoutBuilder(
+                    builder: (context, box) => SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(minHeight: box.maxHeight),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 6, 20, 20),
+                          child: Column(
+                            children: [
+                              Row(
                                 children: [
                                   Text(
-                                    hard ? 'A HARD DAY · JUST STEP OUTSIDE' : (p >= 1 ? 'FULL LIGHT TODAY' : "TODAY'S LIGHT"),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(color: muted, fontSize: 12, letterSpacing: 2, fontWeight: FontWeight.w700),
+                                    'Nūr',
+                                    style: TextStyle(color: ink, fontSize: 24, fontWeight: FontWeight.w300, letterSpacing: 1.5),
                                   ),
-                                  const SizedBox(height: 6),
-                                  FittedBox(
-                                    child: Text(
-                                      distanceText(m),
-                                      style: TextStyle(
-                                        color: ink,
-                                        fontSize: 64,
-                                        fontWeight: FontWeight.w200,
-                                        letterSpacing: -1,
-                                        fontFeatures: const [FontFeature.tabularFigures()],
-                                      ),
-                                    ),
+                                  const Spacer(),
+                                  IconButton(
+                                    tooltip: 'The light you found',
+                                    onPressed: () => openCollection(context),
+                                    icon: Icon(Icons.auto_awesome_outlined, color: ink),
                                   ),
-                                  Text('of ${distanceText(store.todayGoal)}', style: TextStyle(color: muted, fontSize: 16)),
+                                  IconButton(
+                                    tooltip: 'Settings',
+                                    onPressed: () => showSettings(context),
+                                    icon: Icon(Icons.tune_rounded, color: ink),
+                                  ),
                                 ],
                               ),
-                            ),
-                            SizedBox(height: (box.maxHeight - 600).clamp(24.0, 260.0)), // the sun and the path show here; shorter screens give way
-                            FadeIn(
-                              delay: const Duration(milliseconds: 300),
-                              child: AnimatedSwitcher(
-                                duration: const Duration(milliseconds: 800),
-                                child: LightCard(key: ValueKey(card.id), light: card, progress: p, label: cardLabel),
+                              if (store.counterOk == false) ...[const SizedBox(height: 8), _StepsOff(progress: p)],
+                              SizedBox(height: max(24, box.maxHeight * 0.06)),
+                              FadeIn(
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      hard ? 'A HARD DAY · JUST STEP OUTSIDE' : (p >= 1 ? 'FULL LIGHT TODAY' : "TODAY'S LIGHT"),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(color: muted, fontSize: 12, letterSpacing: 2, fontWeight: FontWeight.w700),
+                                    ),
+                                    const SizedBox(height: 6),
+                                    FittedBox(
+                                      child: Text(
+                                        distanceText(m),
+                                        style: TextStyle(
+                                          color: ink,
+                                          fontSize: 64,
+                                          fontWeight: FontWeight.w200,
+                                          letterSpacing: -1,
+                                          fontFeatures: const [FontFeature.tabularFigures()],
+                                        ),
+                                      ),
+                                    ),
+                                    Text('of ${distanceText(store.todayGoal)}', style: TextStyle(color: muted, fontSize: 16)),
+                                  ],
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 10),
-                            SizedBox(
-                              height: 20,
-                              child: next == null
-                                  ? Text('Every light of today found.', style: TextStyle(color: muted))
-                                  : Text('Next light in ${distanceText(next.$1)}', style: TextStyle(color: muted)),
-                            ),
-                            const SizedBox(height: 14),
-                            FadeIn(
-                              delay: const Duration(milliseconds: 500),
-                              child: Column(
-                                children: [
-                                  if (_newWay != null) ...[
-                                    Glass(
-                                      progress: p,
-                                      padding: const EdgeInsets.fromLTRB(16, 12, 8, 12),
-                                      child: Row(
-                                        children: [
-                                          Icon(Icons.alt_route_rounded, color: ink, size: 20),
-                                          const SizedBox(width: 10),
-                                          Expanded(
-                                            child: Text(_newWay!, style: TextStyle(color: ink, height: 1.35)),
-                                          ),
-                                          IconButton(
-                                            tooltip: 'Another way',
-                                            onPressed: () => setState(() => _newWay = _pickWay(_newWay)),
-                                            icon: Icon(Icons.refresh_rounded, color: muted, size: 20),
-                                          ),
-                                        ],
+                              SizedBox(height: (box.maxHeight - 600).clamp(24.0, 260.0)), // the sun and the path show here; shorter screens give way
+                              FadeIn(
+                                delay: const Duration(milliseconds: 300),
+                                child: AnimatedSwitcher(
+                                  duration: const Duration(milliseconds: 800),
+                                  child: LightCard(key: ValueKey(card.id), light: card, progress: p, label: cardLabel),
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              SizedBox(
+                                height: 20,
+                                child: next == null
+                                    ? Text('Every light of today found.', style: TextStyle(color: muted))
+                                    : Text('Next light in ${distanceText(next.$1)}', style: TextStyle(color: muted)),
+                              ),
+                              const SizedBox(height: 14),
+                              FadeIn(
+                                delay: const Duration(milliseconds: 500),
+                                child: Column(
+                                  children: [
+                                    if (_newWay != null) ...[
+                                      Glass(
+                                        progress: p,
+                                        padding: const EdgeInsets.fromLTRB(16, 12, 8, 12),
+                                        child: Row(
+                                          children: [
+                                            Icon(Icons.alt_route_rounded, color: ink, size: 20),
+                                            const SizedBox(width: 10),
+                                            Expanded(
+                                              child: Text(_newWay!, style: TextStyle(color: ink, height: 1.35)),
+                                            ),
+                                            IconButton(
+                                              tooltip: 'Another way',
+                                              onPressed: () => setState(() => _newWay = _pickWay(_newWay)),
+                                              icon: Icon(Icons.refresh_rounded, color: muted, size: 20),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(height: 12),
+                                    ],
+                                    SizedBox(
+                                      width: double.infinity,
+                                      child: FilledButton.icon(
+                                        onPressed: _go,
+                                        style: FilledButton.styleFrom(
+                                          backgroundColor: p < 0.6 ? const Color(0xFFF4E6C4) : night,
+                                          foregroundColor: p < 0.6 ? night : const Color(0xFFF4E6C4),
+                                        ),
+                                        icon: const Icon(Icons.wb_twilight_rounded),
+                                        label: Text(p >= 1 ? 'Walk a little more' : 'Go out'),
                                       ),
                                     ),
                                     const SizedBox(height: 12),
-                                  ],
-                                  SizedBox(
-                                    width: double.infinity,
-                                    child: FilledButton.icon(
-                                      onPressed: _go,
-                                      style: FilledButton.styleFrom(
-                                        backgroundColor: p < 0.6 ? const Color(0xFFF4E6C4) : night,
-                                        foregroundColor: p < 0.6 ? night : const Color(0xFFF4E6C4),
-                                      ),
-                                      icon: const Icon(Icons.wb_twilight_rounded),
-                                      label: Text(p >= 1 ? 'Walk a little more' : 'Go out'),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: _Chip(
+                                            progress: p,
+                                            icon: hard ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+                                            label: 'Hard day',
+                                            on: hard,
+                                            onTap: () {
+                                              HapticFeedback.selectionClick();
+                                              store.setHardDay(!hard);
+                                            },
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Expanded(
+                                          child: _Chip(
+                                            progress: p,
+                                            icon: Icons.alt_route_rounded,
+                                            label: 'New way',
+                                            on: _newWay != null,
+                                            onTap: () => setState(() => _newWay = _newWay == null ? _pickWay(null) : null),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Expanded(
+                                          child: _Chip(progress: p, icon: Icons.umbrella_outlined, label: 'Weather', onTap: () => _weather(context)),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                  const SizedBox(height: 12),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: _Chip(
-                                          progress: p,
-                                          icon: hard ? Icons.favorite_rounded : Icons.favorite_border_rounded,
-                                          label: 'Hard day',
-                                          on: hard,
-                                          onTap: () {
-                                            HapticFeedback.selectionClick();
-                                            store.setHardDay(!hard);
-                                          },
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Expanded(
-                                        child: _Chip(
-                                          progress: p,
-                                          icon: Icons.alt_route_rounded,
-                                          label: 'New way',
-                                          on: _newWay != null,
-                                          onTap: () => setState(() => _newWay = _newWay == null ? _pickWay(null) : null),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Expanded(
-                                        child: _Chip(progress: p, icon: Icons.umbrella_outlined, label: 'Weather', onTap: () => _weather(context)),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -263,8 +264,8 @@ class _TodayState extends State<Today> with WidgetsBindingObserver {
                 ),
               ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }
@@ -279,6 +280,7 @@ class _TodayState extends State<Today> with WidgetsBindingObserver {
 
   void _weather(BuildContext context) {
     showModalBottomSheet<void>(
+      useSafeArea: true, // the handle stays below the status bar, so it can be pulled
       context: context,
       backgroundColor: night,
       isScrollControlled: true,
