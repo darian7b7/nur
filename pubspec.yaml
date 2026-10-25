@@ -40,7 +40,9 @@ dependencies:
   pedometer: ^4.2.0
   permission_handler: ^13.0.2
   family_reminders:
-    path: ../family_kit/family_reminders
+    git:
+      url: https://github.com/darian7b7/family_kit.git
+      path: family_reminders
   url_launcher: ^6.3.3
   flutter_localizations:
     sdk: flutter

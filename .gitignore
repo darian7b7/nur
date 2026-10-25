@@ -49,3 +49,6 @@ app.*.map.json
 
 # Downloads of tool/build_content.py
 /tool/.cache/
+
+# Local path to family_kit while working on it
+pubspec_overrides.yaml
